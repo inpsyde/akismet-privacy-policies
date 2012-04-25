@@ -1,9 +1,9 @@
 === Akismet Privacy Policies ===
-Contributors: Inpsyde, Bueltge, jottlieb, nullbyte
+Contributors: Inpsyde, Bueltge, jottlieb
 Tags: akismet, privacy, spam
 Requires at least: 3.0
-Tested up to: 3.1.1
-Stable tag: 1.0.0
+Tested up to: 3.3
+Stable tag: 1.1.0
 
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 
@@ -15,14 +15,14 @@ Um keine Angriffsfläche für Abmahnungen zu bieten, muss man die Benutzer vor d
 
 == Installation ==
 1. Plugin herunterladen, entpacken, in den Ordner `wp-content/plugins/` laden und aktivieren. Oder direkt über den Adminbereich und 'Plugins' - 'Installieren' das Plugin suchen und installieren.
-2. Das Plugin sollte nun automatisch unter dem Kommentarfeld den Hinweistext anzeigen. Falls nicht, muss im Theme (z.B. comments.php) manuell folgender Code eingefügt werden:
+2. Das Plugin sollte nun automatisch unter dem Kommentarfeld den Hinweistext anzeigen. Falls nicht, muss im Theme (z.B. comments.php) manuell folgender Code innerhalb des Kommentar-Formulares, iinnerhalb `<form>...</form>` - da wo der Hinweis erscheinen soll, eingefügt werden:
 `<?php do_action( 'akismet_privacy_policies' ); ?>`
 Der Aufruf muss an der Stelle des Templates statt finden, wo die Ausgabe erscheinen soll.
 
 == Frequently Asked Questions ==
 = Wo finde ich weitere Informationen zum Thema Datenschutz und Akismet? =
 
-Wir haben bei WordPress Deutschland einen [FAQ-Artikel](http://faq.wordpress-deutschland.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/ "FAQ-Artikel zu Akismet").
+Wir haben bei WordPress Deutschland einen [FAQ-Artikel](http://http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/ "FAQ-Artikel zu Akismet").
 
 Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datenschutz – Datenschutzrechtliche Einwilligung ohne Opt-In?](http://spreerecht.de/datenschutz/2011-04/usability-vs-datenschutz-datenschutzrechtliche-einwilligung-ohne-opt-in)
 

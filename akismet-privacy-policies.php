@@ -2,10 +2,9 @@
 /**
  * @package Akismet Privacy Policies
  */
-
 /*
 Plugin Name: Akismet Privacy Policies
-Plugin URI: http://wordpress-deutschland.org/
+Plugin URI: http://wpde.org/
 Description: Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 Version: 1.1.0
 Author: Inpsyde GmbH
@@ -314,7 +313,7 @@ class Akismet_Privacy_Policies {
 		<p class="submit">
 			<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 		</p>
-		<p>Weitere Informationen zum Thema findest du in <a href="http://faq.wordpress-deutschland.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">der WordPress Deutschland FAQ</a>. Dieses Plugin wurde entwickelt von der <a href="http://inpsyde.com/" title="Besuch die Homepage der Inpsyde GmbH">Inpsyde GmbH</a> mit rechtlicher Unterstützung durch die Rechtsanwaltskanzlei <a href="http://spreerecht.de/" title="Besuch die Homepage der Kanzlei Schwenke und Dramburg">SCHWENKE &amp; DRAMBURG.</a></p>
+		<p>Weitere Informationen zum Thema findest du in <a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">der WordPress Deutschland FAQ</a>. Dieses Plugin wurde entwickelt von der <a href="http://inpsyde.com/" title="Besuch die Homepage der Inpsyde GmbH">Inpsyde GmbH</a> mit rechtlicher Unterstützung durch die Rechtsanwaltskanzlei <a href="http://spreerecht.de/" title="Besuch die Homepage der Kanzlei Schwenke und Dramburg">SCHWENKE &amp; DRAMBURG.</a></p>
 
 	</form>
 	</div>
@@ -393,10 +392,9 @@ class Akismet_Privacy_Policies {
 				. '<li>' . __( 'Eingeloggte Anwender sehen den Hinweis am Kommentarformular nicht.' ) . '</li>'
 				. '<li><strong>' . __( 'Im Hinweistext musst du den Link zu deiner Datenschutzerklärung manuell einfügen.' ) . '</strong></li>'
 				. '<li>' . __( 'Für die Datenschutzerklärung kannst du folgende Vorlage verwenden: <br/>
-&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;
-Diese Seite nutzt das&nbsp;&lt;a href="http://akismet.com/"&gt;Akismet</a>-Plugin der&nbsp;&lt;a href="http://automattic.com/"&gt;Automattic&lt;/a&gt; Inc., 60 29th Street #343, San Francisco, CA 94110-4929, USA. Mit Hilfe dieses Plugins werden Kommentare von echten Menschen von Spam-Kommentaren unterschieden. Dazu werden alle Kommentarangaben an einen Server in den USA verschickt, wo sie analysiert und für Vergleichszwecke vier Tage lang gespeichert werden. Ist ein Kommentar als Spam eingestuft worden, werden die Daten über diese Zeit hinaus gespeichert. Zu diesen Angaben gehören der eingegebene Name, die Emailadresse, die IP-Adresse, der Kommentarinhalt, der Referrer, Angaben zum verwendeten Browser sowie dem Computersystem und die Zeit des Eintrags. Sie können gerne Pseudonyme nutzen, oder auf die Eingabe des Namens oder der Emailadresse verzichten. Sie können die Übertragung der Daten komplett verhindern, in dem Sie unser Kommentarsystem nicht nutzen. Das wäre schade, aber leider sehen wir sonst keine Alternativen, die ebenso effektiv arbeiten. Sie können der Nutzung Ihrer Daten für die Zukunft unter&nbsp;&lt;a href="mailto:support@wordpress.com" target="_blank"&gt;support@wordpress.com&lt;/a&gt;, Betreff “Deletion of Data stored by Akismet” unter Angabe/Beschreibung der gespeicherten Daten&nbsp;widersprechen.
-' ) . '</li>'
-				. '<li>' . __( 'Weitere Informationen zum Thema findest du in <a href="http://faq.wordpress-deutschland.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">diesem Artikel der WordPress Deutschland FAQ</a>' ) . '</li>'
+<code>&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;
+Diese Seite nutzt das&nbsp;&lt;a href="http://akismet.com/"&gt;Akismet</a>-Plugin der&nbsp;&lt;a href="http://automattic.com/"&gt;Automattic&lt;/a&gt; Inc., 60 29th Street #343, San Francisco, CA 94110-4929, USA. Mit Hilfe dieses Plugins werden Kommentare von echten Menschen von Spam-Kommentaren unterschieden. Dazu werden alle Kommentarangaben an einen Server in den USA verschickt, wo sie analysiert und für Vergleichszwecke vier Tage lang gespeichert werden. Ist ein Kommentar als Spam eingestuft worden, werden die Daten über diese Zeit hinaus gespeichert. Zu diesen Angaben gehören der eingegebene Name, die Emailadresse, die IP-Adresse, der Kommentarinhalt, der Referrer, Angaben zum verwendeten Browser sowie dem Computersystem und die Zeit des Eintrags. Sie können gerne Pseudonyme nutzen, oder auf die Eingabe des Namens oder der Emailadresse verzichten. Sie können die Übertragung der Daten komplett verhindern, in dem Sie unser Kommentarsystem nicht nutzen. Das wäre schade, aber leider sehen wir sonst keine Alternativen, die ebenso effektiv arbeiten. Sie können der Nutzung Ihrer Daten für die Zukunft unter&nbsp;&lt;a href="mailto:support@wordpress.com" target="_blank"&gt;support@wordpress.com&lt;/a&gt;, Betreff “Deletion of Data stored by Akismet” unter Angabe/Beschreibung der gespeicherten Daten&nbsp;widersprechen.</code>' ) . '</li>'
+				. '<li>' . __( 'Weitere Informationen zum Thema findest du in <a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">diesem Artikel der WordPress Deutschland FAQ</a>' ) . '</li>'
 				. '<li>' . __( 'Dieses Plugin wurde entwickelt von der <a href="http://inpsyde.com/" title="Besuch die Homepage der Inpsyde GmbH">Inpsyde GmbH</a> mit rechtlicher Unterstützung durch die Rechtsanwaltskanzlei <a href="http://spreerecht.de/" title="Besuch die Homepage der Kanzlei Schwenke und Dramburg">SCHWENKE &amp; DRAMBURG</a>.') . '</li>'
 				. '</ul>';
 			
