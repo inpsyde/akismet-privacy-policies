@@ -1,8 +1,8 @@
 === Akismet Privacy Policies ===
-Contributors: Inpsyde, Bueltge, jottlieb
+Contributors: inpsyde, Bueltge
 Tags: akismet, privacy, spam
 Requires at least: 3.0
-Tested up to: 3.3
+Tested up to: 3.6-alpha
 Stable tag: 1.1.0
 
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
