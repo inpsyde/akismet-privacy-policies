@@ -2,8 +2,8 @@
 Contributors: inpsyde, Bueltge
 Tags: akismet, privacy, spam
 Requires at least: 3.0
-Tested up to: 3.6-RC2
-Stable tag: 1.1.0
+Tested up to: 3.9-beta2
+Stable tag: 1.1.1
 
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 
@@ -12,6 +12,7 @@ Der Einsatz des Anti-Spam-Plugins Akismet ist in Deutschland aus datenschutzrech
 
 Um keine Angriffsfläche für Abmahnungen zu bieten, muss man die Benutzer vor dem Kommentieren auf das Speichern dieser Daten hinweisen. Dies übernimmt das Plugin.
 
+**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
 
 == Installation ==
 1. Plugin herunterladen, entpacken, in den Ordner `wp-content/plugins/` laden und aktivieren. Oder direkt über den Adminbereich und 'Plugins' - 'Installieren' das Plugin suchen und installieren.
@@ -34,6 +35,9 @@ Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datensch
 2. Die optionalen Einstellungen im Backend von WordPress
 
 == Changelog ==
+= 1.1.1 =
+* Prüfung auf Sprache der WordPress Installation, nur bei `de_DE` als Sprachschlüssel, werden die Hinweise ergänzt
+
 = 1.1.0 =
 * Weitere Hinweistexte und Mustertext für Datenschutzerklärung
 

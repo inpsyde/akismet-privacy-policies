@@ -3,10 +3,10 @@
  * Plugin Name: Akismet Privacy Policies
  * Plugin URI:  http://wpde.org/
  * Description: Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
- * Version:     1.1.0
+ * Version:     1.1.1
  * Author:      Inpsyde GmbH
  * Author URI:  http://inpsyde.com/
- * License:     GPLv3
+ * License:     GPLv2+
  */
 
 class Akismet_Privacy_Policies {
@@ -35,11 +35,15 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 */
 	public function __construct() {
+
+		// The plugin is only helpful on german blogs
+		if ( 'de_DE' !== get_locale() )
+			return;
 		
 		register_deactivation_hook( __FILE__,	array( &$this, 'unregister_settings' ) );
 		register_uninstall_hook( __FILE__,		array( 'Akismet_Privacy_Policies', 'unregister_settings' ) );
 		
-		add_filter( 'comment_form_defaults',		array( $this, 'add_comment_notice' ), 11, 1 );
+		add_filter( 'comment_form_defaults',	array( $this, 'add_comment_notice' ), 11, 1 );
 		add_action( 'akismet_privacy_policies',	array( $this, 'add_comment_notice' ) );
 		
 		$options = get_option( 'akismet_privacy_notice_settings' );
@@ -66,7 +70,8 @@ class Akismet_Privacy_Policies {
 	 * @return $classobj
 	 */
 	public static function get_object() {
-		if ( null === self::$classobj ) {
+		
+		if ( NULL === self::$classobj ) {
 			self::$classobj = new self;
 		}
 	
@@ -257,14 +262,15 @@ class Akismet_Privacy_Policies {
 		?>
 		
 		<table class="form-table">
+			<tbody>
 			<tr valign="top">
-				<td scope="row"><label for="akismet_privacy_checkbox">Aktives Prüfen via Checkbox</label></td>
+				<th scope="row"><label for="akismet_privacy_checkbox">Aktives Prüfen via Checkbox</label></th>
 				<td><input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings[checkbox]" value="1" 
 					<?php if ( isset( $options['checkbox'] ) ) checked( '1', $options['checkbox'] ); ?> />
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row"><label for="akismet_privacy_notice">Datenschutzrechtlicher Hinweis</label></td>
+				<th scope="row"><label for="akismet_privacy_notice">Datenschutzrechtlicher Hinweis</label></th>
 				<td><textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings[notice]" cols="80" rows="10" 
 					aria-required="true" ><?php if ( isset($options['notice']) ) echo $options['notice']; ?></textarea>
 					<br /><strong>Hinweis:</strong> HTML möglich
@@ -274,7 +280,7 @@ class Akismet_Privacy_Policies {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row"><label for="akismet_privacy_error_message">Fehler-Hinweis</label></td>
+				<th scope="row"><label for="akismet_privacy_error_message">Fehler-Hinweis</label></th>
 				<td><textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings[error_message]" cols="80" 
 					rows="10" aria-required="true" ><?php if ( isset($options['error_message']) ) echo $options['error_message']; ?></textarea>
 					<br /><strong>Hinweis:</strong> HTML möglich
@@ -282,13 +288,14 @@ class Akismet_Privacy_Policies {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row"><label for="akismet_privacy_style">Stylesheet</label></td>
+				<th scope="row"><label for="akismet_privacy_style">Stylesheet</label></th>
 				<td><textarea id="akismet_privacy_style" name="akismet_privacy_notice_settings[style]" cols="80" 
 					rows="10" aria-required="true" ><?php if ( isset($options['style']) ) echo $options['style']; ?></textarea>
 					<br /><strong>Hinweis:</strong> CSS notwendig
 					<br /><strong>Beispiel:</strong> <?php echo esc_html( $this->style ); ?>
 				</td>
 			</tr>
+			</tbody>
 		</table>
 	
 		<p class="submit">
@@ -312,7 +319,7 @@ class Akismet_Privacy_Policies {
 	 */
 	public function validate_settings( $value ) {
 		
-		if ( isset($value['checkbox']) && 1 == $value['checkbox'] )
+		if ( isset( $value['checkbox'] ) && 1 == $value['checkbox'] )
 			$value['checkbox'] = 1;
 		else 
 			$value['checkbox'] = 0;
@@ -360,7 +367,7 @@ class Akismet_Privacy_Policies {
 	 * @since 0.0.2
 	 * @return string $contextual_help
 	 */
-	public function contextual_help($contextual_help, $screen_id, $screen) {
+	public function contextual_help( $contextual_help, $screen_id, $screen ) {
 			
 			if ( 'settings_page_akismet_privacy_notice_settings_group' !== $screen_id )
 				return $contextual_help;
@@ -384,7 +391,7 @@ Diese Seite nutzt das&nbsp;&lt;a href="http://akismet.com/"&gt;Akismet</a>-Plugi
 	
 } // end class
 
-if ( function_exists('add_action') && class_exists('Akismet_Privacy_Policies') ) {
+if ( function_exists( 'add_action' ) && class_exists( 'Akismet_Privacy_Policies' ) ) {
 	add_action( 'plugins_loaded', array( 'Akismet_Privacy_Policies', 'get_object' ) );
 } else {
 	header( 'Status: 403 Forbidden' );
