@@ -16,7 +16,7 @@ Um keine Angriffsfläche für Abmahnungen zu bieten, muss man die Benutzer vor d
 
 == Installation ==
 1. Plugin herunterladen, entpacken, in den Ordner `wp-content/plugins/` laden und aktivieren. Oder direkt über den Adminbereich und 'Plugins' - 'Installieren' das Plugin suchen und installieren.
-2. Das Plugin sollte nun automatisch unter dem Kommentarfeld den Hinweistext anzeigen. Falls nicht, muss im Theme (z.B. comments.php) manuell folgender Code innerhalb des Kommentar-Formulares, iinnerhalb `<form>...</form>` - da wo der Hinweis erscheinen soll, eingefügt werden:
+2. Das Plugin sollte nun automatisch unter dem Kommentarfeld den Hinweistext anzeigen. Falls nicht, muss im Theme (z.B. comments.php) manuell folgender Code innerhalb des Kommentar-Formulares, innerhalb `<form>...</form>` - da wo der Hinweis erscheinen soll, eingefügt werden:
 `<?php do_action( 'akismet_privacy_policies' ); ?>`
 Der Aufruf muss an der Stelle des Templates statt finden, wo die Ausgabe erscheinen soll.
 
