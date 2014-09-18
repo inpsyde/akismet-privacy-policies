@@ -2,8 +2,8 @@
 Contributors: inpsyde, Bueltge
 Tags: akismet, privacy, spam
 Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 1.1.1
+Tested up to: 4.0
+Stable tag: 1.1.2
 
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 
@@ -35,6 +35,10 @@ Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datensch
 2. Die optionalen Einstellungen im Backend von WordPress
 
 == Changelog ==
+= 1.1.2 =
+* Link zum Datenschutzhintergrund ergänzt
+* Source-Codex Anpassungen
+
 = 1.1.1 =
 * Prüfung auf Sprache der WordPress Installation, nur bei `de_DE` als Sprachschlüssel, werden die Hinweise ergänzt
 
