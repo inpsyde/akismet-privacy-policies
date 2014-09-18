@@ -49,7 +49,6 @@ class Akismet_Privacy_Policies {
 
 		add_filter( 'comment_form_defaults', array( $this, 'add_comment_notice' ), 11, 1 );
 		add_action( 'akismet_privacy_policies', array( $this, 'add_comment_notice' ) );
-		add_filter( 'cancel_comment_reply_link', array( $this, 'add_comment_notice' ), 11, 1 );
 
 		$options = get_option( 'akismet_privacy_notice_settings' );
 		if ( empty( $options[ 'checkbox' ] ) ) {
