@@ -230,6 +230,8 @@ class Akismet_Privacy_Policies {
 	 *
 	 * @param array $links , string $file
 	 *
+	 * @param       $file
+	 *
 	 * @since  0.0.2
 	 * @return string $links
 	 */
