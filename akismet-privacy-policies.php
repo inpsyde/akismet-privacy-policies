@@ -37,12 +37,7 @@ class Akismet_Privacy_Policies {
 	 * @since  0.0.1
 	 * @return \Akismet_Privacy_Policies
 	 */
-	public function __construct() {
-
-		// The plugin is only helpful on german blogs
-		if ( 'de_DE' !== get_locale() ) {
-			return;
-		}
+	public function __construct() {}
 
 		register_deactivation_hook( __FILE__, array( &$this, 'unregister_settings' ) );
 		register_uninstall_hook( __FILE__, array( 'Akismet_Privacy_Policies', 'unregister_settings' ) );
