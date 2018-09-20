@@ -7,7 +7,7 @@
  * Version:     1.1.2
  * Author:      Inpsyde GmbH
  * Author URI:  http://inpsyde.com/
- * License:     GPLv2+
+ * License:     GPLv3+
  */
 class Akismet_Privacy_Policies {
 
