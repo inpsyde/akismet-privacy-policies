@@ -17,13 +17,13 @@ class Akismet_Privacy_Policies {
 	public $checkbox = 1;
 
 	// default for notice on comment form
-	public $notice = '<strong>Achtung:</strong> Ich erkläre mich damit einverstanden, dass alle 
-	eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm 
+	public $notice = '<strong>Achtung:</strong> Ich erkläre mich damit einverstanden, dass alle
+	eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm
 	<a href="http://akismet.com/">Akismet</a> in den USA überprüft und gespeichert werden.<br />
 	<a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsmöglichkeiten</a>.';
 
 	// default for error message, if checkbox is not active on comment form
-	public $error_message = '<p><strong>Achtung:</strong> 
+	public $error_message = '<p><strong>Achtung:</strong>
 	Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>';
 
 	// default style to float checkbox
@@ -37,7 +37,7 @@ class Akismet_Privacy_Policies {
 	 * @since  0.0.1
 	 * @return \Akismet_Privacy_Policies
 	 */
-	public function __construct() {}
+	public function __construct() {
 
 		register_deactivation_hook( __FILE__, array( &$this, 'unregister_settings' ) );
 		register_uninstall_hook( __FILE__, array( 'Akismet_Privacy_Policies', 'unregister_settings' ) );
