@@ -13,8 +13,26 @@ class Akismet_Privacy_Policies {
 
 	static private $classobj;
 
+	// default translation language
+	// public $default_locale = 'de_DE';
+
+	// available locales
+	// public $locales = array(
+	// 	'de_DE' => 'Deutsch',
+	// 	'en_US' => 'English',
+	// 	'fr_FR' => 'Francais',
+	// 	'it_IT' => 'Italiano',
+	// 	'es_ES' => 'Espanol'
+	// );
+
 	// default for active checkbox on comment form
 	public $checkbox = 1;
+
+  // translation languages
+	public $translation;
+
+	// the $this->options
+	public $options;
 
 	// default for notice on comment form
 	public $notice = '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle
@@ -45,18 +63,21 @@ class Akismet_Privacy_Policies {
 		add_filter( 'comment_form_defaults', array( $this, 'add_comment_notice' ), 11, 1 );
 		add_action( 'akismet_privacy_policies', array( $this, 'add_comment_notice' ) );
 
-		$options = get_option( 'akismet_privacy_notice_settings' );
+		$this->translation = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_user_locale();
+		$this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 
-		if ( empty( $options[ 'checkbox' ] ) ) {
-			$options[ 'checkbox' ] = $this->checkbox;
+		// echo '$this: ';
+		// var_dump($this);
+		if ( empty( $this->options[ 'checkbox' ] ) ) {
+			$this->options[ 'checkbox' ] = $this->checkbox;
 		}
-		if ( $options[ 'checkbox' ] ) {
+		if ( $this->options[ 'checkbox' ] ) {
 			add_action( 'pre_comment_on_post', array( $this, 'error_message' ) );
 		}
-		if ( ! isset( $options[ 'style' ] ) ) {
-			$options[ 'style' ] = $this->style;
+		if ( ! isset( $this->options[ 'style' ] ) ) {
+			$this->options[ 'style' ] = $this->style;
 		}
-		if ( $options[ 'style' ] ) {
+		if ( $this->options[ 'style' ] ) {
 			add_action( 'wp_head', array( $this, 'add_style' ) );
 		}
 
@@ -130,19 +151,21 @@ class Akismet_Privacy_Policies {
 			return $arr_comment_defaults;
 		}
 
-		$options = get_option( 'akismet_privacy_notice_settings' );
-		if ( ! isset( $options[ 'checkbox' ] ) || empty( $options[ 'checkbox' ] ) && 0 != $options[ 'checkbox' ] ) {
-			$options[ 'checkbox' ] = $this->checkbox;
+		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_locale();
+		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
+
+		if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 != $this->options[ 'checkbox' ] ) {
+			$this->options[ 'checkbox' ] = $this->checkbox;
 		}
-		if ( empty( $options[ 'notice' ] ) ) {
-			$options[ 'notice' ] = $this->notice;
+		if ( empty( $this->options[ 'notice' ] ) ) {
+			$this->options[ 'notice' ] = $this->notice;
 		}
 
 		$defaults = array(
 			'css_class'    => 'privacy-notice',
 			'html_element' => 'p',
-			'text'         => $options[ 'notice' ],
-			'checkbox'     => $options[ 'checkbox' ],
+			'text'         => $this->options[ 'notice' ],
+			'checkbox'     => $this->options[ 'checkbox' ],
 			'position'     => 'comment_notes_after'
 		);
 
@@ -194,14 +217,15 @@ class Akismet_Privacy_Policies {
 			return NULL;
 		}
 
-		$options = get_option( 'akismet_privacy_notice_settings' );
-		if ( empty( $options[ 'error_message' ] ) ) {
-			$options[ 'error_message' ] = $this->error_message;
+		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_locale();
+		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
+		if ( empty( $this->options[ 'error_message' ] ) ) {
+			$this->options[ 'error_message' ] = $this->error_message;
 		}
 
 		// check for checkbox active
 		if ( isset( $_POST[ 'comment' ] ) && ( ! isset( $_POST[ 'akismet_privacy_check' ] ) ) ) {
-			$message = apply_filters( 'akismet_privacy_error_message', $options[ 'error_message' ] );
+			$message = apply_filters( 'akismet_privacy_error_message', $this->options[ 'error_message' ] );
 			wp_die( $message );
 		}
 	}
@@ -220,12 +244,13 @@ class Akismet_Privacy_Policies {
 			return NULL;
 		}
 
-		$options = get_option( 'akismet_privacy_notice_settings' );
-		if ( empty( $options[ 'style' ] ) ) {
-			$options[ 'style' ] = $this->style;
+		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_locale();
+		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
+		if ( empty( $this->options[ 'style' ] ) ) {
+			$this->options[ 'style' ] = $this->style;
 		}
 
-		echo '<style type="text/css" media="screen">' . $options[ 'style' ] . '</style>';
+		echo '<style type="text/css" media="screen">' . $this->options[ 'style' ] . '</style>';
 	}
 
 	/**
@@ -290,51 +315,66 @@ class Akismet_Privacy_Policies {
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'akismet_privacy_notice_settings_group' );
-				$options = get_option( 'akismet_privacy_notice_settings' );
-				if ( ! isset( $options[ 'checkbox' ] ) || empty( $options[ 'checkbox' ] ) && 0 != $options[ 'checkbox' ] ) {
-					$options[ 'checkbox' ] = $this->checkbox;
+				// $locale = isset( $_GET[ 'lang' ] ) ? $_GET[ 'lang' ] : get_user_locale();
+				// echo "sprache im formular: $this->translation\n";
+				// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
+				// echo "<pre>"; print_r($this->options); echo "</pre>";
+				// echo "<pre>akismet_privacy_notice_settings_$this->translation - before: "; print_r($this->options); echo "</pre>";
+				if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 != $this->options[ 'checkbox' ] ) {
+					$this->options[ 'checkbox' ] = $this->checkbox;
 				}
-				if ( empty( $options[ 'notice' ] ) ) {
-					$options[ 'notice' ] = normalize_whitespace( $this->notice );
+				if ( empty( $this->options[ 'notice' ] ) ) {
+					$this->options[ 'notice' ] = normalize_whitespace( $this->notice );
 				}
-				if ( empty( $options[ 'error_message' ] ) ) {
-					$options[ 'error_message' ] = normalize_whitespace( $this->error_message );
+				if ( empty( $this->options[ 'error_message' ] ) ) {
+					$this->options[ 'error_message' ] = normalize_whitespace( $this->error_message );
 				}
-				if ( empty( $options[ 'style' ] ) ) {
-					$options[ 'style' ] = normalize_whitespace( $this->style );
+				if ( empty( $this->options[ 'style' ] ) ) {
+					$this->options[ 'style' ] = normalize_whitespace( $this->style );
 				}
+				// echo "<pre>akismet_privacy_notice_settings_$this->translation - after: "; print_r($this->options); echo "</pre>";
 				?>
 
 				<table class="form-table">
 					<tbody>
+						<!-- language of the setting will always be the current WP locale, don't know why... -->
+						<!-- <tr valign="top">
+							<th scope="row"><label for="select_translation_language"><?php _e( '&Uuml;bersetzungssprache ausw&auml;hlen' ) ?></label></th>
+							<td>
+								<select id="select_translation_language" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[language]">
+									<option value="de_DE" <?php selected( $this->translation, 'de_DE' ) ?>>Deutsch</option>
+									<option value="en_US" <?php selected( $this->translation, 'en_US' ) ?>>English (US)</option>
+								</select>
+							</td>
+						</tr> -->
 					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_checkbox"><?php _e("Aktives Pr&uuml;fen via Checkbox", "akismet-privacy-policies") ?></label></th>
+						<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( "Aktives Pr&uuml;fen via Checkbox", "akismet-privacy-policies" ) ?></label></th>
 						<td>
-							<input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings[checkbox]" value="1"
-								<?php if ( isset( $options[ 'checkbox' ] ) ) {
-									checked( '1', $options[ 'checkbox' ] );
+							<input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[checkbox]" value="1"
+								<?php if ( isset( $this->options[ 'checkbox' ] ) ) {
+									checked( '1', $this->options[ 'checkbox' ] );
 								} ?> />
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_notice"><?php _e("Datenschutzrechtlicher Hinweis", "akismet-privacy-policies") ?></label></th>
+						<th scope="row"><label for="akismet_privacy_notice"><?php _e( "Datenschutzrechtlicher Hinweis", "akismet-privacy-policies" ) ?></label></th>
 						<td>
-							<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings[notice]" cols="80" rows="10"
-								aria-required="true"><?php if ( isset( $options[ 'notice' ] ) ) {
-									echo $options[ 'notice' ];
+							<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
+								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
+									echo $this->options[ 'notice' ];
 								} ?></textarea>
-							<br /><?php _e("<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies") ?>
+							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
 							<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter "Hilfe", rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
 
 							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php echo esc_html( $this->notice ); ?>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_error_message"><?php _e("Fehler-Hinweis", "akismet-privacy-policies") ?></label></th>
+						<th scope="row"><label for="akismet_privacy_error_message"><?php _e( "Fehler-Hinweis", "akismet-privacy-policies" ) ?></label></th>
 						<td>
-							<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings[error_message]" cols="80"
-								rows="10" aria-required="true"><?php if ( isset( $options[ 'error_message' ] ) ) {
-									echo $options[ 'error_message' ];
+							<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
+								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'error_message' ] ) ) {
+									echo $this->options[ 'error_message' ];
 								} ?></textarea>
 							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
 							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php echo esc_html( $this->error_message ); ?>
@@ -342,9 +382,9 @@ class Akismet_Privacy_Policies {
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="akismet_privacy_style">Stylesheet</label></th>
-						<td><textarea id="akismet_privacy_style" name="akismet_privacy_notice_settings[style]" cols="80"
-								rows="10" aria-required="true"><?php if ( isset( $options[ 'style' ] ) ) {
-									echo $options[ 'style' ];
+						<td><textarea id="akismet_privacy_style" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[style]" cols="80"
+								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'style' ] ) ) {
+									echo $this->options[ 'style' ];
 								} ?></textarea>
 							<br /><?php _e("<strong>Hinweis:</strong> CSS notwendig", "akismet-privacy-policies") ?>
 							<br /><strong><?php _e("Beispiel:", "akismet-privacy-policies") ?></strong> <?php echo esc_html( $this->style ); ?>
@@ -354,7 +394,7 @@ class Akismet_Privacy_Policies {
 				</table>
 
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', "akismet-privacy-policies" ) ?>" />
+					<input type="submit" class="button-primary" value="<?php _e( '&Auml;nderungen speichern', "akismet-privacy-policies" ) ?>" />
 				</p>
 
 				<?php _e( '
@@ -403,9 +443,10 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 */
 	public function register_settings() {
-
+		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_user_locale();
+		// echo 'register_setting: akismet_privacy_notice_settings_' . $this->translation;
 		register_setting(
-			'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings',
+			'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings_' . $this->translation,
 			array( $this, 'validate_settings' )
 		);
 	}
@@ -419,9 +460,13 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 */
 	public function unregister_settings() {
-
-		unregister_setting( 'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings' );
-		delete_option( 'akismet_privacy_notice_settings' );
+		// unregister_setting( 'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings' );
+		$all_options = wp_load_alloptions();
+		$to_be_deleted = preg_grep('/^akismet_privacy_notice_settings(_)*[a-z]*(_)*[A-Z]*$/', array_keys($all_options));
+		foreach( $to_be_deleted as $option ) {
+			unregister_setting( 'akismet_privacy_notice_settings_group', $option );
+			delete_option( $option );
+		}
 	}
 
 	/**
