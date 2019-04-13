@@ -447,7 +447,7 @@ class Akismet_Privacy_Policies {
 		// echo 'register_setting: akismet_privacy_notice_settings_' . $this->translation;
 		register_setting(
 			'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings_' . $this->translation,
-			array( $this, 'validate_settings' )
+			array( 'sanitize_callback' => array( $this, 'validate_settings' ) )
 		);
 	}
 
