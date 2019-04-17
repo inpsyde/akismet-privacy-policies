@@ -63,7 +63,7 @@ class Akismet_Privacy_Policies {
 		add_filter( 'comment_form_defaults', array( $this, 'add_comment_notice' ), 11, 1 );
 		add_action( 'akismet_privacy_policies', array( $this, 'add_comment_notice' ) );
 
-		$this->translation = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_user_locale();
+		$this->translation = isset( $_GET[ 'translation' ]) ? $_GET[ 'translation' ] : get_user_locale();
 		$this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 
 		// echo '$this: ';
@@ -84,8 +84,10 @@ class Akismet_Privacy_Policies {
 		// for settings
 		add_action( 'init', array( $this, 'akismet_privacy_policies_textdomain' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+		// add_filter( 'query_vars', array( $this, 'add_custom_query_var' ) );
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		// add_action( 'admin_init', array( $this, 'pre_get_posts_test' ) );
 	}
 
 	/**
@@ -102,6 +104,19 @@ class Akismet_Privacy_Policies {
 		}
 
 		return self::$classobj;
+	}
+
+	/**
+	 * Add query string translation to query
+	 */
+	public function add_custom_query_var( $qvars ) {
+		$qvars[] = 'translation';
+		return $qvars;
+	}
+
+	public function pre_get_posts_test() {
+		global $wp_query;
+		echo "<pre>"; print_r($wp_query); echo "</pre>";
 	}
 
 	/**
@@ -151,7 +166,7 @@ class Akismet_Privacy_Policies {
 			return $arr_comment_defaults;
 		}
 
-		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_locale();
+		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
 		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 
 		if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 != $this->options[ 'checkbox' ] ) {
@@ -217,7 +232,7 @@ class Akismet_Privacy_Policies {
 			return NULL;
 		}
 
-		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_locale();
+		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
 		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 		if ( empty( $this->options[ 'error_message' ] ) ) {
 			$this->options[ 'error_message' ] = $this->error_message;
@@ -244,7 +259,7 @@ class Akismet_Privacy_Policies {
 			return NULL;
 		}
 
-		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_locale();
+		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
 		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 		if ( empty( $this->options[ 'style' ] ) ) {
 			$this->options[ 'style' ] = $this->style;
@@ -315,7 +330,7 @@ class Akismet_Privacy_Policies {
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'akismet_privacy_notice_settings_group' );
-				// $locale = isset( $_GET[ 'lang' ] ) ? $_GET[ 'lang' ] : get_user_locale();
+				// $locale = isset( $_GET[ 'translation' ] ) ? $_GET[ 'translation' ] : get_user_locale();
 				// echo "sprache im formular: $this->translation\n";
 				// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 				// echo "<pre>"; print_r($this->options); echo "</pre>";
@@ -421,7 +436,7 @@ class Akismet_Privacy_Policies {
 	 * @return string $value
 	 */
 	public function validate_settings( $value ) {
-
+		echo "<pre>validate_settings: "; var_dump($value); echo "</pre>";
 		if ( isset( $value[ 'checkbox' ] ) && 1 == $value[ 'checkbox' ] ) {
 			$value[ 'checkbox' ] = 1;
 		} else {
@@ -443,8 +458,6 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 */
 	public function register_settings() {
-		// $locale = isset( $_GET[ 'lang' ]) ? $_GET[ 'lang'] : get_user_locale();
-		// echo 'register_setting: akismet_privacy_notice_settings_' . $this->translation;
 		register_setting(
 			'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings_' . $this->translation,
 			array( 'sanitize_callback' => array( $this, 'validate_settings' ) )
