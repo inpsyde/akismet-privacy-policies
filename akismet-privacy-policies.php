@@ -35,14 +35,10 @@ class Akismet_Privacy_Policies {
 	public $options;
 
 	// default for notice on comment form
-	public $notice = '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle
-	eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm
-	<a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br />
-	<a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.';
+	public $notice;
 
 	// default for error message, if checkbox is not active on comment form
-	public $error_message = '<p><strong>Achtung:</strong>
-	Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>';
+	public $error_message;
 
 	// default style to float checkbox
 	public $style = 'input#akismet_privacy_check { float: left; margin: 7px 7px 7px 0; width: 13px; }';
@@ -86,6 +82,7 @@ class Akismet_Privacy_Policies {
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		// add_filter( 'query_vars', array( $this, 'add_custom_query_var' ) );
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+		add_action( 'init', array( $this, 'translate_strings' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		// add_action( 'admin_init', array( $this, 'pre_get_posts_test' ) );
 	}
@@ -104,6 +101,15 @@ class Akismet_Privacy_Policies {
 		}
 
 		return self::$classobj;
+	}
+
+	/**
+	 *
+	 */
+	public function translate_strings() {
+		$this->notice = __( '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.', 'akismet-privacy-policies' );
+		$this->error_message = __( '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>', 'akismet-privacy-policies' );
+
 	}
 
 	/**
@@ -173,7 +179,7 @@ class Akismet_Privacy_Policies {
 			$this->options[ 'checkbox' ] = $this->checkbox;
 		}
 		if ( empty( $this->options[ 'notice' ] ) ) {
-			$this->options[ 'notice' ] = $this->notice;
+			$this->options[ 'notice' ] = __( $this->notice );
 		}
 
 		$defaults = array(
@@ -235,7 +241,7 @@ class Akismet_Privacy_Policies {
 		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
 		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 		if ( empty( $this->options[ 'error_message' ] ) ) {
-			$this->options[ 'error_message' ] = $this->error_message;
+			$this->options[ 'error_message' ] = __( $this->error_message );
 		}
 
 		// check for checkbox active
@@ -326,7 +332,7 @@ class Akismet_Privacy_Policies {
 		?>
 		<div class="wrap">
 			<h2><?php echo $this->get_plugin_data( 'Name' ); ?></h2>
-
+			<?php /* echo $this->notice */ ?>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'akismet_privacy_notice_settings_group' );
@@ -339,10 +345,10 @@ class Akismet_Privacy_Policies {
 					$this->options[ 'checkbox' ] = $this->checkbox;
 				}
 				if ( empty( $this->options[ 'notice' ] ) ) {
-					$this->options[ 'notice' ] = normalize_whitespace( $this->notice );
+					$this->options[ 'notice' ] = normalize_whitespace( __( $this->notice ) );
 				}
 				if ( empty( $this->options[ 'error_message' ] ) ) {
-					$this->options[ 'error_message' ] = normalize_whitespace( $this->error_message );
+					$this->options[ 'error_message' ] = normalize_whitespace( __( $this->error_message ) );
 				}
 				if ( empty( $this->options[ 'style' ] ) ) {
 					$this->options[ 'style' ] = normalize_whitespace( $this->style );
@@ -378,10 +384,9 @@ class Akismet_Privacy_Policies {
 								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
 									echo $this->options[ 'notice' ];
 								} ?></textarea>
-							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
-							<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter "Hilfe", rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
-
-							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php echo esc_html( $this->notice ); ?>
+							<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
+							<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter &quot;Hilfe&quot;, rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
+							<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( __( $this->notice ) ); ?>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -392,7 +397,7 @@ class Akismet_Privacy_Policies {
 									echo $this->options[ 'error_message' ];
 								} ?></textarea>
 							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
-							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php echo esc_html( $this->error_message ); ?>
+							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php echo esc_html( __( $this->error_message ) ); ?>
 						</td>
 					</tr>
 					<tr valign="top">
