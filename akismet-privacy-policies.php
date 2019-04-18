@@ -1,5 +1,11 @@
 <?php
 
+function aprint_d($what) {
+	echo "<pre>";
+	var_dump($what);
+	echo "</pre>";
+}
+
 /**
  * Plugin Name: Akismet Privacy Policies
  * Plugin URI:  http://wpde.org/
@@ -28,6 +34,12 @@ class Akismet_Privacy_Policies {
 	// default for active checkbox on comment form
 	public $checkbox = 1;
 
+	// available languages
+	public $languages;
+
+	// translation object, needed if current locale != translation locales
+	public $mo;
+
   // translation languages
 	public $translation;
 
@@ -52,18 +64,33 @@ class Akismet_Privacy_Policies {
 	 * @return \Akismet_Privacy_Policies
 	 */
 	public function __construct() {
-
 		register_deactivation_hook( __FILE__, array( &$this, 'unregister_settings' ) );
 		register_uninstall_hook( __FILE__, array( 'Akismet_Privacy_Policies', 'unregister_settings' ) );
 
 		add_filter( 'comment_form_defaults', array( $this, 'add_comment_notice' ), 11, 1 );
 		add_action( 'akismet_privacy_policies', array( $this, 'add_comment_notice' ) );
 
-		$this->translation = isset( $_GET[ 'translation' ]) ? $_GET[ 'translation' ] : get_user_locale();
+		$this->languages = get_available_languages();
+		// default language is en_US but get_available languages
+		// contains translations in .mo files
+		$this->languages[] = 'en_US';
+
+		if ( isset( $_GET['translation' ])) {
+			$this->translation = $_GET[ 'translation' ];
+		} elseif( isset( $_POST[ 'translation' ])) {
+			$this->translation = $_POST[ 'translation' ];
+		} else {
+			$this->translation = get_user_locale();
+		}
+
+		if ( $this->translation != 'de_DE' ) {
+			$this->mo = new Mo;
+			$mofile = dirname( __FILE__) . '/languages/akismet-privacy-policies-' . $this->translation . '.mo';
+			$this->mo->import_from_file( $mofile );
+		}
+
 		$this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 
-		// echo '$this: ';
-		// var_dump($this);
 		if ( empty( $this->options[ 'checkbox' ] ) ) {
 			$this->options[ 'checkbox' ] = $this->checkbox;
 		}
@@ -80,11 +107,9 @@ class Akismet_Privacy_Policies {
 		// for settings
 		add_action( 'init', array( $this, 'akismet_privacy_policies_textdomain' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
-		// add_filter( 'query_vars', array( $this, 'add_custom_query_var' ) );
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
 		add_action( 'init', array( $this, 'translate_strings' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		// add_action( 'admin_init', array( $this, 'pre_get_posts_test' ) );
 	}
 
 	/**
@@ -104,25 +129,19 @@ class Akismet_Privacy_Policies {
 	}
 
 	/**
-	 *
+	 * Initialize and translate $this->notice, $this->error_message
 	 */
 	public function translate_strings() {
-		$this->notice = __( '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.', 'akismet-privacy-policies' );
-		$this->error_message = __( '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>', 'akismet-privacy-policies' );
-
-	}
-
-	/**
-	 * Add query string translation to query
-	 */
-	public function add_custom_query_var( $qvars ) {
-		$qvars[] = 'translation';
-		return $qvars;
-	}
-
-	public function pre_get_posts_test() {
-		global $wp_query;
-		echo "<pre>"; print_r($wp_query); echo "</pre>";
+		if ( $this->translation != 'de_DE' ) {
+			$this->notice = __( '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.', 'akismet-privacy-policies' );
+		} else {
+			$this->notice = '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.';
+		}
+		if ( $this->translation != 'de_DE' ) {
+			$this->error_message = __( '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>', 'akismet-privacy-policies' );
+		} else {
+			$this->error_message = '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>';
+		}
 	}
 
 	/**
@@ -238,15 +257,13 @@ class Akismet_Privacy_Policies {
 			return NULL;
 		}
 
-		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
-		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 		if ( empty( $this->options[ 'error_message' ] ) ) {
-			$this->options[ 'error_message' ] = __( $this->error_message );
+			$this->options[ 'error_message' ] = $this->error_message;
 		}
 
 		// check for checkbox active
 		if ( isset( $_POST[ 'comment' ] ) && ( ! isset( $_POST[ 'akismet_privacy_check' ] ) ) ) {
-			$message = apply_filters( 'akismet_privacy_error_message', $this->options[ 'error_message' ] );
+			$message = apply_filters( 'akismet_privacy_error_message', __( $this->options[ 'error_message' ], 'akismet-privacy-policies' ) );
 			wp_die( $message );
 		}
 	}
@@ -331,16 +348,16 @@ class Akismet_Privacy_Policies {
 
 		?>
 		<div class="wrap">
-			<h2><?php echo $this->get_plugin_data( 'Name' ); ?></h2>
-			<?php /* echo $this->notice */ ?>
+			<h2>
+				<?php echo $this->get_plugin_data( 'Name' ); ?>
+				<select id="select_translation_language">
+					<option value="de_DE" <?php selected( $this->translation, 'de_DE' ) ?>>Deutsch</option>
+					<option value="en_US" <?php selected( $this->translation, 'en_US' ) ?>>English (US)</option>
+				</select>
+			</h2>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'akismet_privacy_notice_settings_group' );
-				// $locale = isset( $_GET[ 'translation' ] ) ? $_GET[ 'translation' ] : get_user_locale();
-				// echo "sprache im formular: $this->translation\n";
-				// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
-				// echo "<pre>"; print_r($this->options); echo "</pre>";
-				// echo "<pre>akismet_privacy_notice_settings_$this->translation - before: "; print_r($this->options); echo "</pre>";
 				if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 != $this->options[ 'checkbox' ] ) {
 					$this->options[ 'checkbox' ] = $this->checkbox;
 				}
@@ -353,19 +370,14 @@ class Akismet_Privacy_Policies {
 				if ( empty( $this->options[ 'style' ] ) ) {
 					$this->options[ 'style' ] = normalize_whitespace( $this->style );
 				}
-				// echo "<pre>akismet_privacy_notice_settings_$this->translation - after: "; print_r($this->options); echo "</pre>";
 				?>
-
+				<input type="hidden" name="translation" value="<?php echo $this->translation ?>">
 				<table class="form-table">
 					<tbody>
 						<!-- language of the setting will always be the current WP locale, don't know why... -->
 						<!-- <tr valign="top">
 							<th scope="row"><label for="select_translation_language"><?php _e( '&Uuml;bersetzungssprache ausw&auml;hlen' ) ?></label></th>
 							<td>
-								<select id="select_translation_language" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[language]">
-									<option value="de_DE" <?php selected( $this->translation, 'de_DE' ) ?>>Deutsch</option>
-									<option value="en_US" <?php selected( $this->translation, 'en_US' ) ?>>English (US)</option>
-								</select>
 							</td>
 						</tr> -->
 					<tr valign="top">
@@ -382,11 +394,16 @@ class Akismet_Privacy_Policies {
 						<td>
 							<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
 								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
-									echo $this->options[ 'notice' ];
+									if ( $this->translation != 'de_DE' ) {
+										$msg = $this->mo->translate( $this->options[ 'notice' ] );
+									} else {
+										$msg = $this->options[ 'notice' ];
+									}
+									echo $msg;
 								} ?></textarea>
 							<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
 							<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter &quot;Hilfe&quot;, rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
-							<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( __( $this->notice ) ); ?>
+							<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( $this->notice ); ?>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -394,10 +411,17 @@ class Akismet_Privacy_Policies {
 						<td>
 							<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'error_message' ] ) ) {
-									echo $this->options[ 'error_message' ];
+									if ( $this->translation != 'de_DE' ) {
+										$msg = $this->mo->translate( $this->options[ 'error_message' ] );
+									} else {
+										$msg = $this->options[ 'error_message' ];
+									}
+									echo $msg;
 								} ?></textarea>
 							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
-							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php echo esc_html( __( $this->error_message ) ); ?>
+							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php
+							echo esc_html( $this->error_message );
+							?>
 						</td>
 					</tr>
 					<tr valign="top">
