@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Akismet Privacy Policies\n"
-"POT-Creation-Date: 2019-04-19 15:29+0200\n"
-"PO-Revision-Date: 2019-04-19 15:41+0200\n"
+"POT-Creation-Date: 2019-04-19 16:10+0200\n"
+"PO-Revision-Date: 2019-04-19 16:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stefan Nussbaumer <st9fan@gmail.com>\n"
 "Language: en\n"
@@ -16,27 +16,27 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: akismet-privacy-policies.php:311
+#: akismet-privacy-policies.php:307
 msgid "Settings"
 msgstr "Settings"
 
-#: akismet-privacy-policies.php:374
+#: akismet-privacy-policies.php:370
 msgid "&Uuml;bersetzungssprache ausw&auml;hlen"
 msgstr "Select translation language"
 
-#: akismet-privacy-policies.php:384
+#: akismet-privacy-policies.php:380
 msgid "Aktives Pr&uuml;fen via Checkbox"
 msgstr "Activate check by checking checkbox"
 
-#: akismet-privacy-policies.php:393
+#: akismet-privacy-policies.php:389
 msgid "Datenschutzrechtlicher Hinweis"
 msgstr "Privacy Notice"
 
-#: akismet-privacy-policies.php:404 akismet-privacy-policies.php:421
+#: akismet-privacy-policies.php:400 akismet-privacy-policies.php:424
 msgid "<strong>Hinweis:</strong> HTML m&ouml;glich"
 msgstr "<strong>Note:</strong> Using HTML is possible"
 
-#: akismet-privacy-policies.php:405
+#: akismet-privacy-policies.php:401
 msgid ""
 "<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner "
 "Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die "
@@ -47,24 +47,24 @@ msgstr ""
 "statement manually. In Wordpress 5 and later you can find a link to a guide "
 "to creating your own privacy statement under 'Settings' > 'Privacy'."
 
-#: akismet-privacy-policies.php:406 akismet-privacy-policies.php:422
-#: akismet-privacy-policies.php:434
+#: akismet-privacy-policies.php:402 akismet-privacy-policies.php:425
+#: akismet-privacy-policies.php:442
 msgid "Beispiel:"
 msgstr "Example:"
 
-#: akismet-privacy-policies.php:410
+#: akismet-privacy-policies.php:413
 msgid "Fehler-Hinweis"
 msgstr "Error Notice"
 
-#: akismet-privacy-policies.php:433
+#: akismet-privacy-policies.php:441
 msgid "<strong>Hinweis:</strong> CSS notwendig"
 msgstr "<strong>Notice:</strong> CSS necessary"
 
-#: akismet-privacy-policies.php:441
+#: akismet-privacy-policies.php:449
 msgid "&Auml;nderungen speichern"
 msgstr "Save changes"
 
-#: akismet-privacy-policies.php:444
+#: akismet-privacy-policies.php:452
 msgid ""
 "\n"
 "\t\t\t\t<p>Weitere Informationen zum Thema findest du in\n"
@@ -82,7 +82,7 @@ msgstr ""
 "\n"
 "<p>Find more information in <a href=\""
 
-#: akismet-privacy-policies.php:535
+#: akismet-privacy-policies.php:543
 msgid ""
 "Das Plugin erg&auml;nzt das Kommentarformular um datenschutzrechtliche "
 "Hinweise,\n"
@@ -91,18 +91,18 @@ msgstr ""
 "The plugin amends the comment form by a privacy notice which is necessary in "
 "some countries due to EU legislation"
 
-#: akismet-privacy-policies.php:540
+#: akismet-privacy-policies.php:548
 msgid ""
 "Du kannst diverse Einstellungen vornehmen, nutze dazu die M&ouml;glichkeiten "
 "innerhalb der Einstellungen."
 msgstr "Use the plugin's preferences page to create settings."
 
-#: akismet-privacy-policies.php:542
+#: akismet-privacy-policies.php:550
 msgid "Eingeloggte Anwender sehen den Hinweis am Kommentarformular nicht."
 msgstr ""
 "Logged-in users will not see the privacy notice within their  comment form."
 
-#: akismet-privacy-policies.php:544
+#: akismet-privacy-policies.php:552
 msgid ""
 "Im Hinweistext musst du den Link zu deiner Datenschutzerkl&auml;rung manuell "
 "einf&uuml;gen."
@@ -110,17 +110,17 @@ msgstr ""
 "You will have to add a link to your privacy statement manually within the "
 "privacy notice. "
 
-#: akismet-privacy-policies.php:547
+#: akismet-privacy-policies.php:555
 msgid ""
 "F&uuml;r die Datenschutzerkl&auml;rung kannst du folgende Vorlage verwenden: "
 "<br/>"
 msgstr "For your privacy statement you may use the following template:<br>"
 
-#: akismet-privacy-policies.php:548
+#: akismet-privacy-policies.php:556
 msgid "<code>&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;"
 msgstr "<code>&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;"
 
-#: akismet-privacy-policies.php:549
+#: akismet-privacy-policies.php:557
 msgid ""
 "Diese Seite nutzt das&nbsp;&lt;a href=\"http://akismet.com/\"&gt;Akismet</a>-"
 "Plugin der&nbsp;&lt;a href=\"http://automattic.com/\"&gt;Automattic&lt;/"
@@ -161,18 +161,16 @@ msgstr ""
 "\" unter Angabe/Beschreibung der gespeicherten Daten&nbsp;widersprechen.</"
 "code>"
 
-#: akismet-privacy-policies.php:552
+#: akismet-privacy-policies.php:560
 msgid ""
 "Weitere Informationen zum Thema findest du in <a href=\"http://faq.wpde.org/"
 "hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/\">diesem "
 "Artikel der WordPress Deutschland FAQ</a>"
 msgstr ""
 "You can find more information about the topic in German here: <a href="
-"\"http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-"
-"deutschland/\">faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-"
-"akismet-in-deutschland</a>"
+"\"https://akismet.com/gdpr/\">akismet.com/gdpr/</a>"
 
-#: akismet-privacy-policies.php:555
+#: akismet-privacy-policies.php:563
 msgid ""
 "Dieses Plugin wurde entwickelt von der <a href=\"http://inpsyde.com/\" title="
 "\"Besuch die Homepage der Inpsyde GmbH\">Inpsyde GmbH</a> mit rechtlicher "
