@@ -75,7 +75,7 @@ class Akismet_Privacy_Policies {
 		// contains translations in .mo files
 		$this->languages[] = 'en_US';
 
-		if ( isset( $_GET['translation' ])) {
+		if ( isset( $_GET[ 'translation' ])) {
 			$this->translation = $_GET[ 'translation' ];
 		} elseif( isset( $_POST[ 'translation' ])) {
 			$this->translation = $_POST[ 'translation' ];
@@ -133,12 +133,12 @@ class Akismet_Privacy_Policies {
 	 */
 	public function translate_strings() {
 		if ( $this->translation != 'de_DE' ) {
-			$this->notice = __( '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.', 'akismet-privacy-policies' );
+			$this->notice = $this->mo->translate( '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.', 'akismet-privacy-policies' );
 		} else {
 			$this->notice = '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.';
 		}
 		if ( $this->translation != 'de_DE' ) {
-			$this->error_message = __( '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>', 'akismet-privacy-policies' );
+			$this->error_message = $this->mo->translate( '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>', 'akismet-privacy-policies' );
 		} else {
 			$this->error_message = '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>';
 		}
@@ -350,10 +350,6 @@ class Akismet_Privacy_Policies {
 		<div class="wrap">
 			<h2>
 				<?php echo $this->get_plugin_data( 'Name' ); ?>
-				<select id="select_translation_language">
-					<option value="de_DE" <?php selected( $this->translation, 'de_DE' ) ?>>Deutsch</option>
-					<option value="en_US" <?php selected( $this->translation, 'en_US' ) ?>>English (US)</option>
-				</select>
 			</h2>
 			<form method="post" action="options.php">
 				<?php
@@ -371,17 +367,21 @@ class Akismet_Privacy_Policies {
 					$this->options[ 'style' ] = normalize_whitespace( $this->style );
 				}
 				?>
-				<input type="hidden" name="translation" value="<?php echo $this->translation ?>">
+				<!-- <input type="hidden" name="translation" value="<?php echo $this->translation ?>"> -->
 				<table class="form-table">
 					<tbody>
-						<!-- language of the setting will always be the current WP locale, don't know why... -->
-						<!-- <tr valign="top">
-							<th scope="row"><label for="select_translation_language"><?php _e( '&Uuml;bersetzungssprache ausw&auml;hlen' ) ?></label></th>
+						<tr valign="top">
+							<th scope="row"><label for="select_translation_language"><?php _e( '&Uuml;bersetzungssprache ausw&auml;hlen', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
+								<select id="select_translation_language" name="translation" onchange="location = location.href+'&amp;translation='+this.options[this.selectedIndex].value">
+									<?php foreach( $this->languages as $lang ) { ?>
+									<option value="<?php echo $lang ?>" <?php selected( $this->translation, $lang ) ?>><?php echo strtoupper( substr( $lang, 0, 2 ) ) ?></option>
+									<?php } ?>
+								</select>
 							</td>
-						</tr> -->
+						</tr>
 					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( "Aktives Pr&uuml;fen via Checkbox", "akismet-privacy-policies" ) ?></label></th>
+						<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( 'Aktives Pr&uuml;fen via Checkbox', 'akismet-privacy-policies' ) ?></label></th>
 						<td>
 							<input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[checkbox]" value="1"
 								<?php if ( isset( $this->options[ 'checkbox' ] ) ) {
@@ -403,7 +403,14 @@ class Akismet_Privacy_Policies {
 								} ?></textarea>
 							<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
 							<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter &quot;Hilfe&quot;, rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
-							<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( $this->notice ); ?>
+							<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php
+							if ( $this->translation != 'de_DE' ) {
+								$example_notice = $this->mo->translate( $this->notice );
+							} else {
+								$example_notice = $this->notice;
+							}
+							echo esc_html( $example_notice );
+							?>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -420,7 +427,12 @@ class Akismet_Privacy_Policies {
 								} ?></textarea>
 							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
 							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php
-							echo esc_html( $this->error_message );
+							if ( $this->translation != 'de_DE' ) {
+								$example_error = $this->mo->translate( $this->error_message );
+							} else {
+								$example_error = $this->error_message;
+							}
+							echo esc_html( $example_error );
 							?>
 						</td>
 					</tr>
