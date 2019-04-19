@@ -19,31 +19,19 @@ class Akismet_Privacy_Policies {
 
 	static private $classobj;
 
-	// default translation language
-	// public $default_locale = 'de_DE';
-
-	// available locales
-	// public $locales = array(
-	// 	'de_DE' => 'Deutsch',
-	// 	'en_US' => 'English',
-	// 	'fr_FR' => 'Francais',
-	// 	'it_IT' => 'Italiano',
-	// 	'es_ES' => 'Espanol'
-	// );
-
 	// default for active checkbox on comment form
 	public $checkbox = 1;
 
 	// available languages
 	public $languages;
 
-	// translation object, needed if current locale != translation locales
+	// translation object, needed if current locale != translation locale
 	public $mo;
 
   // translation languages
 	public $translation;
 
-	// the $this->options
+	// the options
 	public $options;
 
 	// default for notice on comment form
@@ -71,7 +59,7 @@ class Akismet_Privacy_Policies {
 		add_action( 'akismet_privacy_policies', array( $this, 'add_comment_notice' ) );
 
 		$this->languages = get_available_languages();
-		// default language is en_US but get_available languages
+		// default language is en_US but get_available_languages
 		// contains translations in .mo files
 		$this->languages[] = 'en_US';
 
@@ -130,6 +118,11 @@ class Akismet_Privacy_Policies {
 
 	/**
 	 * Initialize and translate $this->notice, $this->error_message
+	 *
+	 * @since x.x.x
+	 * @access public
+	 *
+	 * @return void
 	 */
 	public function translate_strings() {
 		if ( $this->translation != 'de_DE' ) {
@@ -168,6 +161,9 @@ class Akismet_Privacy_Policies {
 	 *
 	 * @access public
 	 * @uses load_plugin_textdomain
+	 * @since x.x.x
+	 *
+	 * @return void
 	 */
 	public function akismet_privacy_policies_textdomain() {
 		load_plugin_textdomain( 'akismet-privacy-policies', false, basename( dirname( __FILE__ ) ) . '/languages' );
@@ -380,19 +376,19 @@ class Akismet_Privacy_Policies {
 								</select>
 							</td>
 						</tr>
-					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( 'Aktives Pr&uuml;fen via Checkbox', 'akismet-privacy-policies' ) ?></label></th>
-						<td>
-							<input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[checkbox]" value="1"
-								<?php if ( isset( $this->options[ 'checkbox' ] ) ) {
-									checked( '1', $this->options[ 'checkbox' ] );
-								} ?> />
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_notice"><?php _e( "Datenschutzrechtlicher Hinweis", "akismet-privacy-policies" ) ?></label></th>
-						<td>
-							<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
+						<tr valign="top">
+							<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( 'Aktives Pr&uuml;fen via Checkbox', 'akismet-privacy-policies' ) ?></label></th>
+							<td>
+								<input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[checkbox]" value="1"
+									<?php if ( isset( $this->options[ 'checkbox' ] ) ) {
+										checked( '1', $this->options[ 'checkbox' ] );
+									} ?> />
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><label for="akismet_privacy_notice"><?php _e( "Datenschutzrechtlicher Hinweis", "akismet-privacy-policies" ) ?></label></th>
+							<td>
+								<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
 								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
 									if ( $this->translation != 'de_DE' ) {
 										$msg = $this->mo->translate( $this->options[ 'notice' ] );
@@ -401,22 +397,22 @@ class Akismet_Privacy_Policies {
 									}
 									echo $msg;
 								} ?></textarea>
-							<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
-							<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter &quot;Hilfe&quot;, rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
-							<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php
-							if ( $this->translation != 'de_DE' ) {
-								$example_notice = $this->mo->translate( $this->notice );
-							} else {
-								$example_notice = $this->notice;
-							}
-							echo esc_html( $example_notice );
-							?>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_error_message"><?php _e( "Fehler-Hinweis", "akismet-privacy-policies" ) ?></label></th>
-						<td>
-							<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
+								<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
+								<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter &quot;Hilfe&quot;, rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
+								<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php
+								if ( $this->translation != 'de_DE' ) {
+									$example_notice = $this->mo->translate( $this->notice );
+								} else {
+									$example_notice = $this->notice;
+								}
+								echo esc_html( $example_notice );
+								?>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><label for="akismet_privacy_error_message"><?php _e( "Fehler-Hinweis", "akismet-privacy-policies" ) ?></label></th>
+							<td>
+								<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'error_message' ] ) ) {
 									if ( $this->translation != 'de_DE' ) {
 										$msg = $this->mo->translate( $this->options[ 'error_message' ] );
@@ -425,27 +421,27 @@ class Akismet_Privacy_Policies {
 									}
 									echo $msg;
 								} ?></textarea>
-							<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
-							<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php
-							if ( $this->translation != 'de_DE' ) {
-								$example_error = $this->mo->translate( $this->error_message );
-							} else {
-								$example_error = $this->error_message;
-							}
-							echo esc_html( $example_error );
-							?>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="akismet_privacy_style">Stylesheet</label></th>
-						<td><textarea id="akismet_privacy_style" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[style]" cols="80"
+								<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
+								<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php
+								if ( $this->translation != 'de_DE' ) {
+									$example_error = $this->mo->translate( $this->error_message );
+								} else {
+									$example_error = $this->error_message;
+								}
+								echo esc_html( $example_error );
+								?>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><label for="akismet_privacy_style">Stylesheet</label></th>
+							<td><textarea id="akismet_privacy_style" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[style]" cols="80"
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'style' ] ) ) {
 									echo $this->options[ 'style' ];
 								} ?></textarea>
-							<br /><?php _e("<strong>Hinweis:</strong> CSS notwendig", "akismet-privacy-policies") ?>
-							<br /><strong><?php _e("Beispiel:", "akismet-privacy-policies") ?></strong> <?php echo esc_html( $this->style ); ?>
-						</td>
-					</tr>
+								<br /><?php _e("<strong>Hinweis:</strong> CSS notwendig", "akismet-privacy-policies") ?>
+								<br /><strong><?php _e("Beispiel:", "akismet-privacy-policies") ?></strong> <?php echo esc_html( $this->style ); ?>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 
