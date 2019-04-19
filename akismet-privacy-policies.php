@@ -386,7 +386,7 @@ class Akismet_Privacy_Policies {
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row"><label for="akismet_privacy_notice"><?php _e( "Datenschutzrechtlicher Hinweis", "akismet-privacy-policies" ) ?></label></th>
+							<th scope="row"><label for="akismet_privacy_notice"><?php _e( 'Datenschutzrechtlicher Hinweis', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
 								<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
 								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
@@ -410,7 +410,7 @@ class Akismet_Privacy_Policies {
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row"><label for="akismet_privacy_error_message"><?php _e( "Fehler-Hinweis", "akismet-privacy-policies" ) ?></label></th>
+							<th scope="row"><label for="akismet_privacy_error_message"><?php _e( 'Fehler-Hinweis', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
 								<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'error_message' ] ) ) {
@@ -421,8 +421,8 @@ class Akismet_Privacy_Policies {
 									}
 									echo $msg;
 								} ?></textarea>
-								<br /><?php _e( "<strong>Hinweis:</strong> HTML m&ouml;glich", "akismet-privacy-policies" ) ?>
-								<br /><strong><?php _e( "Beispiel:", "akismet-privacy-policies" ) ?></strong> <?php
+								<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
+								<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php
 								if ( $this->translation != 'de_DE' ) {
 									$example_error = $this->mo->translate( $this->error_message );
 								} else {
@@ -438,15 +438,15 @@ class Akismet_Privacy_Policies {
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'style' ] ) ) {
 									echo $this->options[ 'style' ];
 								} ?></textarea>
-								<br /><?php _e("<strong>Hinweis:</strong> CSS notwendig", "akismet-privacy-policies") ?>
-								<br /><strong><?php _e("Beispiel:", "akismet-privacy-policies") ?></strong> <?php echo esc_html( $this->style ); ?>
+								<br /><?php _e( '<strong>Hinweis:</strong> CSS notwendig', 'akismet-privacy-policies' ) ?>
+								<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( $this->style ); ?>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( '&Auml;nderungen speichern', "akismet-privacy-policies" ) ?>" />
+					<input type="submit" class="button-primary" value="<?php _e( '&Auml;nderungen speichern', 'akismet-privacy-policies' ) ?>" />
 				</p>
 
 				<?php _e( '
@@ -455,7 +455,7 @@ class Akismet_Privacy_Policies {
 					<a href="http://inpsyde.com/" title="Besuch die Homepage der Inpsyde GmbH">Inpsyde GmbH</a> mit rechtlicher Unterst&uuml;tzung durch die Rechtsanwaltskanzlei
 					<a href="http://spreerecht.de/" title="Besuch die Homepage der Kanzlei Schwenke und Dramburg">SCHWENKE &amp; DRAMBURG.</a>
 				</p>
-				', "akismet-privacy-policies" ) ?>
+				', 'akismet-privacy-policies' ) ?>
 			</form>
 		</div>
 	<?php
@@ -473,7 +473,7 @@ class Akismet_Privacy_Policies {
 	 * @return string $value
 	 */
 	public function validate_settings( $value ) {
-		echo "<pre>validate_settings: "; var_dump($value); echo "</pre>";
+
 		if ( isset( $value[ 'checkbox' ] ) && 1 == $value[ 'checkbox' ] ) {
 			$value[ 'checkbox' ] = 1;
 		} else {
