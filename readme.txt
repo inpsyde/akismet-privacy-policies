@@ -29,9 +29,7 @@ Der Aufruf muss an der Stelle des Templates statt finden, wo die Ausgabe erschei
 == Frequently Asked Questions ==
 = Wo finde ich weitere Informationen zum Thema Datenschutz und Akismet? =
 
-Wir haben bei WordPress Deutschland einen [FAQ-Artikel](http://http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/ "FAQ-Artikel zu Akismet").
-
-Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datenschutz – Datenschutzrechtliche Einwilligung ohne Opt-In?](http://spreerecht.de/datenschutz/2011-04/usability-vs-datenschutz-datenschutzrechtliche-einwilligung-ohne-opt-in)
+Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datenschutz – Datenschutzrechtliche Einwilligung ohne Opt-In?](http://drschwenke.de/usability-vs-datenschutz-datenschutzrechtliche-einwilligung-ohne-opt-in/)
 
 = Plugin Dokumentation =
 * [Hook-Documentation](https://github.com/inpsyde/Akismet-Privacy-Policies/wiki/Hook-Documentation)
@@ -53,4 +51,5 @@ Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datensch
 
 = 1.0.0 =
 * Release first version
+
 
