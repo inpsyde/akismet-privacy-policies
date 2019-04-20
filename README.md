@@ -14,4 +14,3 @@ Copyright (c) 2018 Inpsyde GmbH.
 The plugin code is licensed under [GPLv3 license](https://github.com/inpsyde/Akismet-Privacy-Policies/blob/master/LICENSE).
 
 The team at [Inpsyde](https://inpsyde.com) is engineering the Web since 2006.
-
