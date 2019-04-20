@@ -71,7 +71,7 @@ class Akismet_Privacy_Policies {
 			$this->translation = get_user_locale();
 		}
 
-		if ( $this->translation != 'de_DE' ) {
+		if ( $this->translation != 'en_US' ) {
 			$this->mo = new Mo;
 			$mofile = dirname( __FILE__) . '/languages/akismet-privacy-policies-' . $this->translation . '.mo';
 			$this->mo->import_from_file( $mofile );
@@ -93,10 +93,10 @@ class Akismet_Privacy_Policies {
 		}
 
 		// for settings
+		add_action( 'init', array( $this, 'translate_strings' ) );
 		add_action( 'init', array( $this, 'akismet_privacy_policies_textdomain' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
-		add_action( 'init', array( $this, 'translate_strings' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
@@ -125,15 +125,18 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 */
 	public function translate_strings() {
-		if ( $this->translation != 'de_DE' ) {
-			$this->notice = $this->mo->translate( '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.', 'akismet-privacy-policies' );
+		// dummy translation, only there to let poedit recognize the text...
+		__( 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.', 'akismet-privacy-policies' );
+    __( '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>', 'akismet-privacy-policies' );
+		if ( $this->translation != 'en_US' ) {
+			$this->notice = $this->mo->translate( 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.', 'akismet-privacy-policies' );
 		} else {
-			$this->notice = '<strong>Achtung:</strong> Ich erkl&auml;re mich damit einverstanden, dass alle eingegebenen Daten und meine IP-Adresse nur zum Zweck der Spamvermeidung durch das Programm <a href="http://akismet.com/">Akismet</a> in den USA &uuml;berpr&uuml;ft und gespeichert werden.<br /><a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">Weitere Informationen zu Akismet und Widerrufsm&ouml;glichkeiten</a>.';
+			$this->notice = 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.';
 		}
-		if ( $this->translation != 'de_DE' ) {
-			$this->error_message = $this->mo->translate( '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>', 'akismet-privacy-policies' );
+		if ( $this->translation != 'en_US' ) {
+			$this->error_message = $this->mo->translate( '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>', 'akismet-privacy-policies' );
 		} else {
-			$this->error_message = '<p><strong>Achtung:</strong> Du hast die datenschutzrechtlichen Hinweise nicht akzeptiert.</p>';
+			$this->error_message = '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>';
 		}
 	}
 
@@ -278,8 +281,6 @@ class Akismet_Privacy_Policies {
 			return NULL;
 		}
 
-		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
-		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 		if ( empty( $this->options[ 'style' ] ) ) {
 			$this->options[ 'style' ] = $this->style;
 		}
@@ -367,7 +368,7 @@ class Akismet_Privacy_Policies {
 				<table class="form-table">
 					<tbody>
 						<tr valign="top">
-							<th scope="row"><label for="select_translation_language"><?php _e( '&Uuml;bersetzungssprache ausw&auml;hlen', 'akismet-privacy-policies' ) ?></label></th>
+							<th scope="row"><label for="select_translation_language"><?php _e( 'Select translation language', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
 								<select id="select_translation_language" name="translation" onchange="location = location.href+'&amp;translation='+this.options[this.selectedIndex].value">
 									<?php foreach( $this->languages as $lang ) { ?>
@@ -377,7 +378,7 @@ class Akismet_Privacy_Policies {
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( 'Aktives Pr&uuml;fen via Checkbox', 'akismet-privacy-policies' ) ?></label></th>
+							<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( 'Consent via checkbox', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
 								<input type="checkbox" id="akismet_privacy_checkbox" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[checkbox]" value="1"
 									<?php if ( isset( $this->options[ 'checkbox' ] ) ) {
@@ -386,21 +387,21 @@ class Akismet_Privacy_Policies {
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row"><label for="akismet_privacy_notice"><?php _e( 'Datenschutzrechtlicher Hinweis', 'akismet-privacy-policies' ) ?></label></th>
+							<th scope="row"><label for="akismet_privacy_notice"><?php _e( 'Privacy Notice', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
 								<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
 								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
-									if ( $this->translation != 'de_DE' ) {
+									if ( $this->translation != 'en_US' ) {
 										$msg = $this->mo->translate( $this->options[ 'notice' ] );
 									} else {
 										$msg = $this->options[ 'notice' ];
 									}
 									echo $msg;
 								} ?></textarea>
-								<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
-								<br /><?php _e( '<strong>Achtung:</strong> Im Hinweistext musst du manuell den Link zu deiner Datenschutzerkl&auml;rung einf&uuml;gen. Einen Mustertext f&uuml;r die Datenschutzerkl&auml;rung findest du im Reiter &quot;Hilfe&quot;, rechts oben auf dieser Seite.', "akismet-privacy-policies" ) ?>
-								<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php
-								if ( $this->translation != 'de_DE' ) {
+								<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
+								<br /><?php _e( '<strong>Attention:</strong> You will have to add the link to your privacy statement manually. In Wordpress 5 and later you can find a link to a guide to creating your own privacy statement under \'Settings\' &rarr; \'Privacy\'.', "akismet-privacy-policies" ) ?>
+								<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
+								if ( $this->translation != 'en_US' ) {
 									$example_notice = $this->mo->translate( $this->notice );
 								} else {
 									$example_notice = $this->notice;
@@ -410,20 +411,20 @@ class Akismet_Privacy_Policies {
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row"><label for="akismet_privacy_error_message"><?php _e( 'Fehler-Hinweis', 'akismet-privacy-policies' ) ?></label></th>
+							<th scope="row"><label for="akismet_privacy_error_message"><?php _e( 'Error Notice', 'akismet-privacy-policies' ) ?></label></th>
 							<td>
 								<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'error_message' ] ) ) {
-									if ( $this->translation != 'de_DE' ) {
+									if ( $this->translation != 'en_US' ) {
 										$msg = $this->mo->translate( $this->options[ 'error_message' ] );
 									} else {
 										$msg = $this->options[ 'error_message' ];
 									}
 									echo $msg;
 								} ?></textarea>
-								<br /><?php _e( '<strong>Hinweis:</strong> HTML m&ouml;glich', 'akismet-privacy-policies' ) ?>
-								<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php
-								if ( $this->translation != 'de_DE' ) {
+								<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
+								<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
+								if ( $this->translation != 'en_US' ) {
 									$example_error = $this->mo->translate( $this->error_message );
 								} else {
 									$example_error = $this->error_message;
@@ -438,24 +439,18 @@ class Akismet_Privacy_Policies {
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'style' ] ) ) {
 									echo $this->options[ 'style' ];
 								} ?></textarea>
-								<br /><?php _e( '<strong>Hinweis:</strong> CSS notwendig', 'akismet-privacy-policies' ) ?>
-								<br /><strong><?php _e( 'Beispiel:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( $this->style ); ?>
+								<br /><?php _e( '<strong>Note:</strong> CSS is necessary', 'akismet-privacy-policies' ) ?>
+								<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( $this->style ); ?>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( '&Auml;nderungen speichern', 'akismet-privacy-policies' ) ?>" />
+					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'akismet-privacy-policies' ) ?>" />
 				</p>
 
-				<?php _e( '
-				<p>Weitere Informationen zum Thema findest du in
-					<a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">der WordPress Deutschland FAQ</a>. Dieses Plugin wurde entwickelt von der
-					<a href="http://inpsyde.com/" title="Besuch die Homepage der Inpsyde GmbH">Inpsyde GmbH</a> mit rechtlicher Unterst&uuml;tzung durch die Rechtsanwaltskanzlei
-					<a href="http://spreerecht.de/" title="Besuch die Homepage der Kanzlei Schwenke und Dramburg">SCHWENKE &amp; DRAMBURG.</a>
-				</p>
-				', 'akismet-privacy-policies' ) ?>
+				<?php _e( '<p>You can find more information about the topic here: <a href="https://akismet.com/gdpr/">akismet.com/gdpr/</a>. This plugin has been developed by <a href="http://inpsyde.com/" title="visit inpsyde.com">Inpsyde GmbH</a>, Germany, with legal support by the law firm <a href="http://spreerecht.de/" title="visit spreerecht.de">SCHWENKE &amp; DRAMBURG.</a></p>', 'akismet-privacy-policies' ) ?>
 			</form>
 		</div>
 	<?php
@@ -510,7 +505,6 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 */
 	public function unregister_settings() {
-		// unregister_setting( 'akismet_privacy_notice_settings_group', 'akismet_privacy_notice_settings' );
 		$all_options = wp_load_alloptions();
 		$to_be_deleted = preg_grep('/^akismet_privacy_notice_settings(_)*[a-z]*(_)*[A-Z]*$/', array_keys($all_options));
 		foreach( $to_be_deleted as $option ) {
@@ -540,27 +534,26 @@ class Akismet_Privacy_Policies {
 
 		$contextual_help =
 			'<p>' . __(
-				'Das Plugin erg&auml;nzt das Kommentarformular um datenschutzrechtliche Hinweise,
-				die erforderlich sind, wenn du das Plugin Akismet einsetzt.', "akismet-privacy-policies"
+				'The plugin amends the comment form by a privacy notice which is necessary in some countries due to EU legislation', "akismet-privacy-policies"
 			) . '</p>'
 			. '<ul>'
 			. '<li>' . __(
-				'Du kannst diverse Einstellungen vornehmen, nutze dazu die M&ouml;glichkeiten innerhalb der Einstellungen.', "akismet-privacy-policies"
+				'Use the plugin\'s preferences page to create settings.', 'akismet-privacy-policies'
 			) . '</li>'
-			. '<li>' . __( 'Eingeloggte Anwender sehen den Hinweis am Kommentarformular nicht.', "akismet-privacy-policies" ) . '</li>'
+			. '<li>' . __( 'Logged-in users will not see the privacy notice within their comment form.', 'akismet-privacy-policies' ) . '</li>'
 			. '<li><strong>' . __(
-				'Im Hinweistext musst du den Link zu deiner Datenschutzerkl&auml;rung manuell einf&uuml;gen.'
+				'You will have to add a link to your privacy statement manually within the privacy notice. '
 			) . '</strong></li>'
 			. '<li>' . __(
-				'F&uuml;r die Datenschutzerkl&auml;rung kannst du folgende Vorlage verwenden: <br/>', "akismet-privacy-policies") .
-__( '<code>&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;', "akismet-privacy-policies" ) .
-__( 'Diese Seite nutzt das&nbsp;&lt;a href="http://akismet.com/"&gt;Akismet</a>-Plugin der&nbsp;&lt;a href="http://automattic.com/"&gt;Automattic&lt;/a&gt; Inc., 60 29th Street #343, San Francisco, CA 94110-4929, USA. Mit Hilfe dieses Plugins werden Kommentare von echten Menschen von Spam-Kommentaren unterschieden. Dazu werden alle Kommentarangaben an einen Server in den USA verschickt, wo sie analysiert und f&uuml;r Vergleichszwecke vier Tage lang gespeichert werden. Ist ein Kommentar als Spam eingestuft worden, werden die Daten &uuml;ber diese Zeit hinaus gespeichert. Zu diesen Angaben geh&ouml;ren der eingegebene Name, die Emailadresse, die IP-Adresse, der Kommentarinhalt, der Referrer, Angaben zum verwendeten Browser sowie dem Computersystem und die Zeit des Eintrags. Sie k&ouml;nnen gerne Pseudonyme nutzen, oder auf die Eingabe des Namens oder der Emailadresse verzichten. Sie k&ouml;nnen die &uuml;bertragung der Daten komplett verhindern, in dem Sie unser Kommentarsystem nicht nutzen. Das w&auml;re schade, aber leider sehen wir sonst keine Alternativen, die ebenso effektiv arbeiten. Sie k&ouml;nnen der Nutzung Ihrer Daten f&uuml;r die Zukunft unter&nbsp;&lt;a href="mailto:support@wordpress.com" target="_blank"&gt;support@wordpress.com&lt;/a&gt;, Betreff "Deletion of Data stored by Akismet" unter Angabe/Beschreibung der gespeicherten Daten&nbsp;widersprechen.</code>', "akismet-privacy-policies"
+				'For your privacy statement you may use the following template:<br />', 'akismet-privacy-policies') .
+__( '<code>&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;', 'akismet-privacy-policies' ) .
+__( 'This page uses the &nbsp;&lt;a href="http://akismet.com/"&gt;Akismet</a>-plugin by&nbsp;&lt;a href="http://automattic.com/"&gt;Automattic&lt;/a&gt; Inc., 60 29th Street #343, San Francisco, CA 94110-4929, USA. By means of this plugin it is possible to filter out spam comments (e.g. created by robots, containing unsolicited advertisements or links to malware). For this purpose comments are sent to a server in the USA where they get analyzed and stored for four days. If a comment gets classified as being spam, the data will be stored beyond the four-day limit. The information being stored contains  the given name, the email address, the IP address, the comment content, the referrer, information about the browser being used to send the comment as well as the operating system of the computer and date and time when the comment was sent. You may use pseudonymes or ommit name and email address. You will not be able to send a comment if you do not consent by clicking the checkbox. You may object to the usage of your data by writing to&nbsp;&lt;a href="mailto:support@wordpress.com" target="_blank"&gt;support@wordpress.com&lt;/a&gt;, subject "Deletion of Data stored by Akismet" giving/describing the stored data.</code>', 'akismet-privacy-policies'
 			) . '</li>'
 			. '<li>' . __(
-				'Weitere Informationen zum Thema findest du in <a href="http://faq.wpde.org/hinweise-zum-datenschutz-beim-einsatz-von-akismet-in-deutschland/">diesem Artikel der WordPress Deutschland FAQ</a>', "akismet-privacy-policies"
+				'You can find more information about the topic here: <a href="https://akismet.com/gdpr/">akismet.com/gdpr/</a>', "akismet-privacy-policies"
 			) . '</li>'
 			. '<li>' . __(
-				'Dieses Plugin wurde entwickelt von der <a href="http://inpsyde.com/" title="Besuch die Homepage der Inpsyde GmbH">Inpsyde GmbH</a> mit rechtlicher Unterst&uuml;tzung durch die Rechtsanwaltskanzlei <a href="http://spreerecht.de/" title="Besuch die Homepage der Kanzlei Schwenke und Dramburg">SCHWENKE &amp; DRAMBURG</a>.', "akismet-privacy-policies"
+				'This plugin has been developed by <a href="http://inpsyde.com/" title="Visit Inpsyde GmbH">Inpsyde GmbH</a> with legal support by the law firm <a href="http://spreerecht.de/" title="Visit spreerecht.de">SCHWENKE &amp; DRAMBURG</a>.', 'akismet-privacy-policies'
 			) . '</li>'
 			. '</ul>';
 
