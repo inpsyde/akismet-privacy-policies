@@ -1,11 +1,5 @@
 <?php
 
-function aprint_d($what) {
-	echo "<pre>";
-	var_dump($what);
-	echo "</pre>";
-}
-
 /**
  * Plugin Name: Akismet Privacy Policies
  * Plugin URI:  http://wpde.org/
