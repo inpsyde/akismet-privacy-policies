@@ -393,7 +393,7 @@ class Akismet_Privacy_Policies {
 									echo $msg;
 								} ?></textarea>
 								<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
-								<br /><?php _e( '<strong>Attention:</strong> You will have to add the link to your privacy statement manually. In Wordpress 5 and later you can find a link to a guide to creating your own privacy statement under \'Settings\' &rarr; \'Privacy\'.', "akismet-privacy-policies" ) ?>
+								<br /><?php _e( '<strong>Attention:</strong> You will have to add the link to your privacy statement manually. In Wordpress 5 and later you can find a link to a guide for creating your own privacy statement under \'Settings\' &rarr; \'Privacy\'.', "akismet-privacy-policies" ) ?>
 								<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
 								if ( $this->translation != 'en_US' ) {
 									$example_notice = $this->mo->translate( $this->notice );
