@@ -67,7 +67,7 @@ class Akismet_Privacy_Policies {
 
 		if ( $this->translation != 'en_US' ) {
 			$this->mo = new Mo;
-			$mofile = dirname( __FILE__) . '/languages/akismet-privacy-policies-' . $this->translation . '.mo';
+			$mofile = dirname( __FILE__ ) . '/languages/akismet-privacy-policies-' . $this->translation . '.mo';
 			$this->mo->import_from_file( $mofile );
 		}
 
@@ -120,14 +120,14 @@ class Akismet_Privacy_Policies {
 	 */
 	public function translate_strings() {
 		// dummy translation, only there to let poedit recognize the text...
-		__( 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.', 'akismet-privacy-policies' );
-    __( '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>', 'akismet-privacy-policies' );
-		if ( $this->translation != 'en_US' ) {
+		esc_html__( 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.', 'akismet-privacy-policies' );
+    esc_html__( '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>', 'akismet-privacy-policies' );
+		if ( $this->translation !== 'en_US' ) {
 			$this->notice = $this->mo->translate( 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.', 'akismet-privacy-policies' );
 		} else {
 			$this->notice = 'I accept that my given data and my IP address is sent to a server in the USA only for the purpose of spam prevention through the <a href="http://akismet.com/">Akismet</a> program.<br /><a href="https://akismet.com/gdpr/">More information on Akismet and GDPR</a>.';
 		}
-		if ( $this->translation != 'en_US' ) {
+		if ( $this->translation !== 'en_US' ) {
 			$this->error_message = $this->mo->translate( '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>', 'akismet-privacy-policies' );
 		} else {
 			$this->error_message = '<p><strong>Attention:</strong> You have not accepted our privacy disclaimer.</p>';
@@ -187,11 +187,11 @@ class Akismet_Privacy_Policies {
 		// $locale = isset( $_GET[ 'translation' ]) ? $_GET[ 'lang'] : get_locale();
 		// $this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
 
-		if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 != $this->options[ 'checkbox' ] ) {
+		if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 !== $this->options[ 'checkbox' ] ) {
 			$this->options[ 'checkbox' ] = $this->checkbox;
 		}
 		if ( empty( $this->options[ 'notice' ] ) ) {
-			$this->options[ 'notice' ] = __( $this->notice );
+			$this->options[ 'notice' ] = esc_html__( $this->notice );
 		}
 
 		$defaults = array(
@@ -256,7 +256,7 @@ class Akismet_Privacy_Policies {
 
 		// check for checkbox active
 		if ( isset( $_POST[ 'comment' ] ) && ( ! isset( $_POST[ 'akismet_privacy_check' ] ) ) ) {
-			$message = apply_filters( 'akismet_privacy_error_message', __( $this->options[ 'error_message' ], 'akismet-privacy-policies' ) );
+			$message = apply_filters( 'akismet_privacy_error_message', esc_html__( $this->options[ 'error_message' ], 'akismet-privacy-policies' ) );
 			wp_die( $message );
 		}
 	}
@@ -345,7 +345,7 @@ class Akismet_Privacy_Policies {
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'akismet_privacy_notice_settings_group' );
-				if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 != $this->options[ 'checkbox' ] ) {
+				if ( ! isset( $this->options[ 'checkbox' ] ) || empty( $this->options[ 'checkbox' ] ) && 0 !== $this->options[ 'checkbox' ] ) {
 					$this->options[ 'checkbox' ] = $this->checkbox;
 				}
 				if ( empty( $this->options[ 'notice' ] ) ) {
@@ -385,7 +385,7 @@ class Akismet_Privacy_Policies {
 							<td>
 								<textarea id="akismet_privacy_notice" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]" cols="80" rows="10"
 								aria-required="true"><?php if ( isset( $this->options[ 'notice' ] ) ) {
-									if ( $this->translation != 'en_US' ) {
+									if ( $this->translation !== 'en_US' ) {
 										$msg = $this->mo->translate( $this->options[ 'notice' ] );
 									} else {
 										$msg = $this->options[ 'notice' ];
@@ -395,12 +395,12 @@ class Akismet_Privacy_Policies {
 								<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
 								<br /><?php _e( '<strong>Attention:</strong> You will have to add the link to your privacy statement manually. In Wordpress 5 and later you can find a link to a guide for creating your own privacy statement under \'Settings\' &rarr; \'Privacy\'.', "akismet-privacy-policies" ) ?>
 								<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
-								if ( $this->translation != 'en_US' ) {
+								if ( $this->translation !== 'en_US' ) {
 									$example_notice = $this->mo->translate( $this->notice );
 								} else {
 									$example_notice = $this->notice;
 								}
-								echo esc_html( $example_notice );
+								esc_html_e( $example_notice );
 								?>
 							</td>
 						</tr>
@@ -409,7 +409,7 @@ class Akismet_Privacy_Policies {
 							<td>
 								<textarea id="akismet_privacy_error_message" name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]" cols="80"
 								rows="10" aria-required="true"><?php if ( isset( $this->options[ 'error_message' ] ) ) {
-									if ( $this->translation != 'en_US' ) {
+									if ( $this->translation !== 'en_US' ) {
 										$msg = $this->mo->translate( $this->options[ 'error_message' ] );
 									} else {
 										$msg = $this->options[ 'error_message' ];
@@ -418,7 +418,7 @@ class Akismet_Privacy_Policies {
 								} ?></textarea>
 								<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
 								<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
-								if ( $this->translation != 'en_US' ) {
+								if ( $this->translation !== 'en_US' ) {
 									$example_error = $this->mo->translate( $this->error_message );
 								} else {
 									$example_error = $this->error_message;
@@ -500,7 +500,7 @@ class Akismet_Privacy_Policies {
 	 */
 	public function unregister_settings() {
 		$all_options = wp_load_alloptions();
-		$to_be_deleted = preg_grep('/^akismet_privacy_notice_settings(_)*[a-z]*(_)*[A-Z]*$/', array_keys($all_options));
+		$to_be_deleted = preg_grep( '/^akismet_privacy_notice_settings(_)*[a-z]*(_)*[A-Z]*$/', array_keys( $all_options ) );
 		foreach( $to_be_deleted as $option ) {
 			unregister_setting( 'akismet_privacy_notice_settings_group', $option );
 			delete_option( $option );
