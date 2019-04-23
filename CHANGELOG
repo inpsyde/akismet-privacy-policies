@@ -1,0 +1,13 @@
+# Changelog
+## 1.1.2
+* Link zum Datenschutzhintergrund ergänzt
+* Source-Codex Anpassungen
+
+## 1.1.1
+* Prüfung auf Sprache der WordPress Installation, nur bei `de_DE` als Sprachschlüssel, werden die Hinweise ergänzt
+
+## 1.1.0
+* Weitere Hinweistexte und Mustertext für Datenschutzerklärung
+
+## 1.0.0
+* Release first version
