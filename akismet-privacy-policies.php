@@ -4,7 +4,7 @@
  * Plugin Name: Akismet Privacy Policies
  * Plugin URI:  http://wpde.org/
  * Description: Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
- * Version:     1.1.2
+ * Version:     2.0.0
  * Author:      Inpsyde GmbH
  * Author URI:  http://inpsyde.com/
  * License:     GPLv3+
@@ -113,7 +113,7 @@ class Akismet_Privacy_Policies {
 	/**
 	 * Initialize and translate $this->notice, $this->error_message
 	 *
-	 * @since x.x.x
+	 * @since 2.0.0
 	 * @access public
 	 *
 	 * @return void
@@ -158,7 +158,7 @@ class Akismet_Privacy_Policies {
 	 *
 	 * @access public
 	 * @uses load_plugin_textdomain
-	 * @since x.x.x
+	 * @since 2.0.0
 	 *
 	 * @return void
 	 */
