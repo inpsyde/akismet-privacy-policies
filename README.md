@@ -9,8 +9,8 @@ Um keine Angriffsfläche für Abmahnungen zu bieten, muss man die Benutzer vor d
 
 ## License and Copyright
 
-Copyright (c) 2018 Inpsyde GmbH.
+Copyright (c) 2019 Inpsyde GmbH.
 
-The plugin code is licensed under [GPLv3 license](https://github.com/inpsyde/Akismet-Privacy-Policies/blob/master/LICENSE).
+The plugin code is licensed under [GPLv2+ license](https://github.com/inpsyde/Akismet-Privacy-Policies/blob/master/LICENSE).
 
 The team at [Inpsyde](https://inpsyde.com) is engineering the Web since 2006.
