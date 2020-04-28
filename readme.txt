@@ -1,8 +1,10 @@
 === Akismet Privacy Policies ===
 Contributors: inpsyde, Bueltge
 Tags: akismet, privacy, spam
+License: GPLv2 or later
+Requires PHP: 5.6
 Requires at least: 3.0
-Tested up to: 4.9
+Tested up to: 5.1
 Stable tag: 1.1.2
 
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
@@ -51,4 +53,5 @@ Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datensch
 
 = 1.0.0 =
 * Release first version
+
 

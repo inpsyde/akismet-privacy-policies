@@ -1,0 +1,149 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: akismet-privacy-policies\n"
+"POT-Creation-Date: 2019-04-20 13:54+0200\n"
+"PO-Revision-Date: 2019-04-20 13:06+0200\n"
+"Last-Translator: \n"
+"Language-Team: Stefan Nussbaumer <st9fan@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: akismet-privacy-policies.php:128
+msgid ""
+"I accept that all my given data is sent to a server in the USA only for the "
+"purpose of checking for spam through the <a href=\"http://akismet.com/"
+"\">Akismet</a> program.<br /><a href=\"https://akismet.com/gdpr/\">More "
+"information on Akismet and GDPR</a>."
+msgstr ""
+
+#: akismet-privacy-policies.php:129
+msgid ""
+"<p><strong>Attention:</strong> You have not accepted our privacy disclaimer."
+"</p>"
+msgstr ""
+
+#: akismet-privacy-policies.php:311
+msgid "Settings"
+msgstr ""
+
+#: akismet-privacy-policies.php:374
+msgid "Select transletion language"
+msgstr ""
+
+#: akismet-privacy-policies.php:384
+msgid "Consent via checkbox"
+msgstr ""
+
+#: akismet-privacy-policies.php:393
+msgid "Privacy Notice"
+msgstr ""
+
+#: akismet-privacy-policies.php:404 akismet-privacy-policies.php:428
+msgid "<strong>Note:</strong> HTML is possible"
+msgstr ""
+
+#: akismet-privacy-policies.php:405
+msgid ""
+"<strong>Attention:</strong> You will have to add the link to your privacy "
+"statement manually. In Wordpress 5 and later you can find a link to a guide "
+"to creating your own privacy statement under 'Settings'"
+msgstr ""
+
+#: akismet-privacy-policies.php:406 akismet-privacy-policies.php:429
+#: akismet-privacy-policies.php:446
+msgid "Example:"
+msgstr ""
+
+#: akismet-privacy-policies.php:417
+msgid "Error Notice"
+msgstr ""
+
+#: akismet-privacy-policies.php:445
+msgid "<strong>Note:</strong> CSS is necessary"
+msgstr ""
+
+#: akismet-privacy-policies.php:453
+msgid "Save Changes"
+msgstr ""
+
+#: akismet-privacy-policies.php:456
+msgid ""
+"<p>You can find more information about the topic here: <a href=\"https://"
+"akismet.com/gdpr/\">akismet.com/gdpr/</a>. This plugin has been developed by "
+"<a href=\"http://inpsyde.com/\" title=\"visit inpsyde.com\">Inpsyde GmbH</"
+"a>, Germany, with legal support by the law firm <a href=\"http://spreerecht."
+"de/\" title=\"visit spreerecht.de\">SCHWENKE &amp; DRAMBURG.</a></p>"
+msgstr ""
+
+#: akismet-privacy-policies.php:541
+msgid ""
+"The plugin amends the comment form by a privacy notice which is necessary in "
+"some countries due to EU legislation"
+msgstr ""
+
+#: akismet-privacy-policies.php:545
+msgid "Use the plugin's preferences page to create settings."
+msgstr ""
+
+#: akismet-privacy-policies.php:547
+msgid ""
+"Logged-in users will not see the privacy notice within their  comment form."
+msgstr ""
+
+#: akismet-privacy-policies.php:549
+msgid ""
+"You will have to add a link to your privacy statement manually within the "
+"privacy notice. "
+msgstr ""
+
+#: akismet-privacy-policies.php:552
+msgid "For your privacy statement you may use the following template:<br />"
+msgstr ""
+
+#: akismet-privacy-policies.php:553
+msgid "<code>&lt;strong&gt;Akismet Anti-Spam&lt;/strong&gt;"
+msgstr ""
+
+#: akismet-privacy-policies.php:554
+msgid ""
+"This page uses the &nbsp;&lt;a href=\"http://akismet.com/\"&gt;Akismet</a>-"
+"plugin by&nbsp;&lt;a href=\"http://automattic.com/\"&gt;Automattic&lt;/a&gt; "
+"Inc., 60 29th Street #343, San Francisco, CA 94110-4929, USA. By means of "
+"this plugin it is possible to filter out spam comments (e.g. created by "
+"robots, containing unsolicited advertisements or links to malware). For this "
+"purpose comments are sent to a server in the USA where they get analyzed and "
+"stored for four days. If a comment gets classified as being spam, the data "
+"will be stored beyond the four-day limit. The information being stored "
+"contains  the given name, the email address, the IP address, the comment "
+"content, the referrer, information about the browser being used to send the "
+"comment as well as the operating system of the computer and date and time "
+"when the comment was sent. You may use pseudonymes or ommit name and email "
+"address. You will not be able to send a comment if you do not consent by "
+"clicking the checkbox. You may object to the usage of your data by writing "
+"to&nbsp;&lt;a href=\"mailto:support@wordpress.com\" target=\"_blank\"&gt;"
+"support@wordpress.com&lt;/a&gt;, subject \"Deletion of Data stored by Akismet"
+"\" giving/describing the stored data.</code>"
+msgstr ""
+
+#: akismet-privacy-policies.php:557
+msgid ""
+"You can find more information about the topic here: <a href=\"https://"
+"akismet.com/gdpr/\">akismet.com/gdpr/</a>"
+msgstr ""
+
+#: akismet-privacy-policies.php:560
+msgid ""
+"This plugin has been developed by <a href=\"http://inpsyde.com/\" title="
+"\"Visit Inpsyde GmbH\">Inpsyde GmbH</a> with legal support by the law firm "
+"<a href=\"http://spreerecht.de/\" title=\"Visit spreerecht.de\">SCHWENKE "
+"&amp; DRAMBURG</a>."
+msgstr ""
