@@ -1,5 +1,4 @@
 # Akismet Privacy Policies
-
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 
 ## Description
@@ -9,7 +8,7 @@ Um keine Angriffsfläche für Abmahnungen zu bieten, muss man die Benutzer vor d
 
 ## License and Copyright
 
-Copyright (c) 2019 Inpsyde GmbH.
+Copyright (c) since 2011 Inpsyde GmbH.
 
 The plugin code is licensed under [GPLv2+ license](https://github.com/inpsyde/Akismet-Privacy-Policies/blob/master/LICENSE).
 
