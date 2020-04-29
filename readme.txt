@@ -4,8 +4,8 @@ Tags: akismet, privacy, spam
 License: GPLv2 or later
 Requires PHP: 5.6
 Requires at least: 3.0
-Tested up to: 5.1
-Stable tag: 1.1.2
+Tested up to: 5.4
+Stable tag: 2.0.0
 
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 
@@ -41,6 +41,10 @@ Rechtsanwalt Thomas Schwenke klärt in einem Artikel auf: [Usability VS Datensch
 2. Die optionalen Einstellungen im Backend von WordPress
 
 == Changelog ==
+= 2.0.0 =
+* Multilinguale Version: Datenschutz- und Fehlerhinweis können für verschiedene Sprachen (momentan de_DE und en_US) getrennt abgespeichert werden und werden entsprechend den Spracheinstellungen der jeweiligen Wordpress-Installation beim Verfassen eines Kommentares angezeigt.
+* Änderung Aufruf der inernen Hilfe.
+
 = 1.1.2 =
 * Link zum Datenschutzhintergrund ergänzt
 * Source-Codex Anpassungen
