@@ -14,10 +14,10 @@ class Akismet_Privacy_Policies {
 
 	static private $classobj;
 	// Default for active checkbox on comment form.
-	public $checkbox = 1;
+	public $checkbox;
 	// Available languages.
 	public $languages;
-	// Translation object, needed if current locale != translation locale.
+	// Translation object, needed if current locale unequal translation locale.
 	public $mo;
 	// Translation languages.
 	public $translation;
@@ -93,7 +93,7 @@ class Akismet_Privacy_Policies {
 	 * @access public
 	 */
 	public static function get_object() {
-		if ( null === self::$classobj ) {
+		if ( self::$classobj === null ) {
 			self::$classobj = new self;
 		}
 
@@ -106,7 +106,6 @@ class Akismet_Privacy_Policies {
 	 * @return void
 	 * @since  2.0.0
 	 * @access public
-	 *
 	 */
 	public function translate_strings() {
 		// dummy translation, only there to let poedit recognize the text...
@@ -160,8 +159,8 @@ class Akismet_Privacy_Policies {
 
 		if ( ! isset( $this->options['checkbox'] )
 		     || ( empty( $this->options['checkbox'] )
-		          && 0
-		             !== $this->options['checkbox'] ) ) {
+		     && $this->options['checkbox'] !== 0 )
+		) {
 			$this->options['checkbox'] = $this->checkbox;
 		}
 		if ( empty( $this->options['notice'] ) ) {
@@ -212,14 +211,13 @@ class Akismet_Privacy_Policies {
 	 * Return Message on inactive checkbox
 	 * Use filter akismet_privacy_error_message for change text or markup
 	 *
-	 * @return void
 	 * @since  0.0.2
 	 * @uses   wp_die
 	 * @access public
 	 */
 	public function print_error_message() {
 		if ( is_user_logged_in() ) {
-			return null;
+			return;
 		}
 
 		if ( empty( $this->options['error_message'] ) ) {
@@ -245,14 +243,14 @@ class Akismet_Privacy_Policies {
 	 */
 	public function add_style() {
 		if ( is_user_logged_in() ) {
-			return null;
+			return;
 		}
 
 		if ( empty( $this->options['style'] ) ) {
 			$this->options['style'] = $this->style;
 		}
 
-		echo '<style type="text/css" media="screen">' . $this->options['style'] . '</style>';
+		echo '<style type="text/css" media="screen">' . esc_html( $this->options['style'] ) . '</style>';
 	}
 
 	/**
@@ -263,16 +261,15 @@ class Akismet_Privacy_Policies {
 	 * @param       $file
 	 *
 	 * @return array
-	 * @uses   plugin_basename
+	 * @uses   plugin_basename, esc_html__
 	 * @access public
 	 *
 	 * @since  0.0.2
 	 */
 	public function plugin_action_links( $links, $file ) {
 		if ( plugin_basename( __DIR__ . '/akismet-privacy-policies.php' ) === $file ) {
-			$links[] = '<a href="options-general.php?page=akismet_privacy_notice_settings_group">' . __(
-					'Settings'
-				) . '</a>';
+			$links[] = '<a href="options-general.php?page=akismet_privacy_notice_settings_group">'
+			           . esc_html__( 'Settings', 'akismet-privacy-policies' ) . '</a>';
 		}
 
 		return $links;
@@ -283,13 +280,13 @@ class Akismet_Privacy_Policies {
 	 *
 	 * @return void
 	 * @since  0.0.2
-	 * @uses   add_options_page
+	 * @uses   add_options_page, add_action
 	 * @access public
 	 */
 	public function add_settings_page() {
 		$options_page = add_options_page(
-			__( 'Akismet Privacy Policies Settings', 'akismet-privacy-policies' ),
-			__( 'Akismet Privacy Policies', 'akismet-privacy-policies' ),
+			esc_html__( 'Akismet Privacy Policies Settings', 'akismet-privacy-policies' ),
+			esc_html__( 'Akismet Privacy Policies', 'akismet-privacy-policies' ),
 			'manage_options',
 			'akismet_privacy_notice_settings_group',
 			[ $this, 'get_settings_page' ]
@@ -301,7 +298,6 @@ class Akismet_Privacy_Policies {
 	/**
 	 * Return form and markup on settings page
 	 *
-	 * @return void
 	 * @since  0.0.2
 	 * @uses   settings_fields, normalize_whitespace
 	 * @access public
@@ -317,12 +313,12 @@ class Akismet_Privacy_Policies {
 				settings_fields( 'akismet_privacy_notice_settings_group' );
 				if ( ! isset( $this->options['checkbox'] )
 				     || ( empty( $this->options['checkbox'] )
-				          && 0
-				             !== $this->options['checkbox'] ) ) {
+				     && $this->options['checkbox'] !== 0 )
+				) {
 					$this->options['checkbox'] = $this->checkbox;
 				}
 				if ( empty( $this->options['notice'] ) ) {
-					$this->options['notice'] = normalize_whitespace( __( $this->notice ) );
+					$this->options['notice'] = normalize_whitespace( $this->notice );
 				}
 				if ( empty( $this->options['error_message'] ) ) {
 					$this->options['error_message'] = normalize_whitespace( $this->error_message );
@@ -331,30 +327,32 @@ class Akismet_Privacy_Policies {
 					$this->options['style'] = normalize_whitespace( $this->style );
 				}
 				?>
-				<!-- <input type="hidden" name="translation" value="<?php echo $this->translation ?>"> -->
+				<input type="hidden" name="translation" value="<?php echo $this->translation ?>">
 				<table class="form-table">
 					<tbody>
 					<tr>
 						<th scope="row">
-							<label for="select_translation_language"><?php _e( 'Select translation language',
-							                                                   'akismet-privacy-policies' ) ?></label>
+							<label for="select_translation_language">
+								<?php esc_html_e( 'Select translation language', 'akismet-privacy-policies' ) ?>
+							</label>
 						</th>
 						<td>
 							<select id="select_translation_language"
 								name="translation"
 								onchange="location = location.href+'&amp;translation='+this.options[this.selectedIndex].value">
 								<?php foreach ( $this->languages as $lang ) { ?>
-									<option value="<?php echo $lang ?>" <?php selected( $this->translation,
-									                                                    $lang ) ?>><?php echo strtoupper( substr( $lang,
-									                                                                                              0,
-									                                                                                              2 ) ) ?></option>
+									<option value="<?php echo esc_attr( $lang ); ?>" <?php selected(
+										$this->translation, $lang ) ?>><?php echo strtoupper( substr( $lang, 0, 2 ) ) ?>
+									</option>
 								<?php } ?>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="akismet_privacy_checkbox"><?php _e( 'Consent via checkbox',
-						                                                                'akismet-privacy-policies' ) ?></label>
+						<th scope="row">
+							<label for="akismet_privacy_checkbox">
+								<?php esc_html_e( 'Consent via checkbox', 'akismet-privacy-policies' ); ?>
+							</label>
 						</th>
 						<td>
 							<input type="checkbox"
@@ -362,65 +360,67 @@ class Akismet_Privacy_Policies {
 								name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[checkbox]"
 								value="1"
 								<?php if ( isset( $this->options['checkbox'] ) ) {
-									checked( '1', $this->options['checkbox'] );
+									checked( 1, $this->options['checkbox'] );
 								} ?> />
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="akismet_privacy_notice"><?php _e( 'Privacy Notice',
-						                                                              'akismet-privacy-policies' ) ?></label>
+						<th scope="row">
+							<label for="akismet_privacy_notice">
+								<?php _e( 'Privacy Notice', 'akismet-privacy-policies' ) ?>
+							</label>
 						</th>
 						<td>
-								<textarea id="akismet_privacy_notice"
-									name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]"
-									cols="80"
-									rows="10"
-									aria-required="true"><?php if ( isset( $this->options['notice'] ) ) {
-										if ( $this->translation !== 'en_US' ) {
-											$msg = $this->mo->translate( $this->options['notice'] );
-										} else {
-											$msg = $this->options['notice'];
-										}
-										echo $msg;
-									} ?></textarea>
+							<textarea id="akismet_privacy_notice"
+								name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[notice]"
+								cols="80"
+								rows="10"
+								aria-required="true"><?php if ( isset( $this->options['notice'] ) ) {
+									$msg = $this->options['notice'];
+									if ( $this->translation !== 'en_US' ) {
+										$msg = $this->mo->translate( $this->options['notice'] );
+									}
+									echo $msg;
+								} ?>
+							</textarea>
 							<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
 							<br /><?php _e( '<strong>Attention:</strong> You will have to add the link to your privacy statement manually. Since WordPress version 5 you can find a link to a guide for creating your own privacy statement under \'Settings\' &rarr; \'Privacy\'.',
 							                'akismet-privacy-policies' ) ?>
-							<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
+							<br /><strong><?php esc_html_e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
+							$example_notice = $this->notice;
 							if ( $this->translation !== 'en_US' ) {
 								$example_notice = $this->mo->translate( $this->notice );
-							} else {
-								$example_notice = $this->notice;
 							}
-							esc_html_e( $example_notice );
+							echo '<code>' . esc_html( $example_notice ) . '</code>';
 							?>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="akismet_privacy_error_message"><?php _e( 'Error Notice',
-						                                                                     'akismet-privacy-policies' ) ?></label>
+						<th scope="row">
+							<label for="akismet_privacy_error_message">
+								<?php esc_html_e( 'Error Notice', 'akismet-privacy-policies' ) ?>
+							</label>
 						</th>
 						<td>
-								<textarea id="akismet_privacy_error_message"
-									name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]"
-									cols="80"
-									rows="10"
-									aria-required="true"><?php if ( isset( $this->options['error_message'] ) ) {
-										if ( $this->translation !== 'en_US' ) {
-											$msg = $this->mo->translate( $this->options['error_message'] );
-										} else {
-											$msg = $this->options['error_message'];
-										}
-										echo $msg;
-									} ?></textarea>
+							<textarea id="akismet_privacy_error_message"
+								name="akismet_privacy_notice_settings_<?php echo $this->translation ?>[error_message]"
+								cols="80"
+								rows="10"
+								aria-required="true"><?php if ( isset( $this->options['error_message'] ) ) {
+									$msg = $this->options['error_message'];
+									if ( $this->translation !== 'en_US' ) {
+										$msg = $this->mo->translate( $this->options['error_message'] );
+									}
+									echo $msg;
+								} ?>
+							</textarea>
 							<br /><?php _e( '<strong>Note:</strong> HTML is possible', 'akismet-privacy-policies' ) ?>
-							<br /><strong><?php _e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
+							<br /><strong><?php esc_html_e( 'Example:', 'akismet-privacy-policies' ) ?></strong> <?php
+							$example_error = $this->error_message;
 							if ( $this->translation !== 'en_US' ) {
 								$example_error = $this->mo->translate( $this->error_message );
-							} else {
-								$example_error = $this->error_message;
 							}
-							echo esc_html( $example_error );
+							echo '<code>' . esc_html( $example_error ) . '</code>';
 							?>
 						</td>
 					</tr>
@@ -433,9 +433,14 @@ class Akismet_Privacy_Policies {
 								aria-required="true"><?php if ( isset( $this->options['style'] ) ) {
 									echo $this->options['style'];
 								} ?></textarea>
-							<br /><?php _e( '<strong>Note:</strong> CSS is necessary', 'akismet-privacy-policies' ) ?>
-							<br /><strong><?php _e( 'Example:',
-							                        'akismet-privacy-policies' ) ?></strong> <?php echo esc_html( $this->style ); ?>
+							<br /><?php _e( '<strong>Note:</strong> CSS is possible', 'akismet-privacy-policies' ) ?>
+							<br /><strong>
+								<?php _e(
+									'Example:',
+									'akismet-privacy-policies' );
+								?>
+							</strong>
+							<?php echo '<code>' . esc_html( $this->style ) . '</code>'; ?>
 						</td>
 					</tr>
 					</tbody>
@@ -456,15 +461,14 @@ class Akismet_Privacy_Policies {
 	/**
 	 * return plugin comment data
 	 *
-	 * @param $value string, default = 'Version'
-	 *               Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
+	 * @param $value string Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
 	 *
 	 * @return string
 	 * @since  0.0.2
 	 * @access public
 	 *
 	 */
-	public function get_plugin_data( $value = 'Version' ) {
+	public function get_plugin_data( $value = null ) {
 		$plugin_data = get_plugin_data( __FILE__ );
 
 		return $plugin_data[ $value ];
@@ -482,7 +486,7 @@ class Akismet_Privacy_Policies {
 	 *
 	 */
 	public function validate_settings( $value ) {
-		if ( isset( $value['checkbox'] ) && 1 === $value['checkbox'] ) {
+		if ( isset( $value['checkbox'] ) && $value['checkbox'] === '1' ) {
 			$value['checkbox'] = 1;
 		} else {
 			$value['checkbox'] = 0;
@@ -520,8 +524,10 @@ class Akismet_Privacy_Policies {
 	 */
 	public function unregister_settings() {
 		$all_options   = wp_load_alloptions();
-		$to_be_deleted = preg_grep( '/^akismet_privacy_notice_settings(_)*[a-z]*(_)*[A-Z]*$/',
-		                            array_keys( $all_options ) );
+		$to_be_deleted = preg_grep(
+			'/^akismet_privacy_notice_settings(_)*[a-z]*(_)*[A-Z]*$/',
+			array_keys( $all_options )
+		);
 		foreach ( $to_be_deleted as $option ) {
 			unregister_setting( 'akismet_privacy_notice_settings_group', $option );
 			delete_option( $option );
@@ -571,13 +577,15 @@ class Akismet_Privacy_Policies {
 			. '</ul>';
 
 		$screen = get_current_screen();
-		$screen->add_help_tab(
-			[
-				'id'      => 'settings_page_akismet_privacy_notice_settings_group',
-				'title'   => __( 'Akismet Privacy Policies', 'akismet-privacy-policies' ),
-				'content' => normalize_whitespace( $contextual_help ),
-			]
-		);
+		if ( $screen !== null ) {
+			$screen->add_help_tab(
+				[
+					'id'      => 'settings_page_akismet_privacy_notice_settings_group',
+					'title'   => __( 'Akismet Privacy Policies', 'akismet-privacy-policies' ),
+					'content' => normalize_whitespace( $contextual_help ),
+				]
+			);
+		}
 	}
 } // end class
 
