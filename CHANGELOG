@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1
+* Fix loading of mo-file if is not exist.
+
 ## 2.0.0
 * Multilinguale Version: Datenschutz- und Fehlerhinweis können für verschiedene Sprachen (momentan de_DE und en_US) getrennt abgespeichert werden und werden entsprechend den Spracheinstellungen der jeweiligen Wordpress-Installation beim Verfassen eines Kommentares angezeigt.
 * Änderung Aufruf der inernen Hilfe.

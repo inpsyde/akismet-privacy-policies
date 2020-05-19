@@ -4,7 +4,7 @@
  * Plugin Name: Akismet Privacy Policies
  * Plugin URI:  http://wpde.org/
  * Description: Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
- * Version:     2.0.0
+ * Version:     2.0.1
  * Author:      Inpsyde GmbH
  * Author URI:  https://inpsyde.com
  * Text Domain: akismet-privacy-policies
@@ -58,8 +58,34 @@ class Akismet_Privacy_Policies {
 
 		if ( $this->translation !== 'en_US' ) {
 			$this->mo = new Mo;
-			$mofile   = __DIR__ . '/languages/akismet-privacy-policies-' . $this->translation . '.mo';
-			$this->mo->import_from_file( $mofile );
+
+			try {
+				$mofile = __DIR__ . '/languages/akismet-privacy-policies-' . $this->translation . '.mo';
+
+				if ( ! file_exists( $mofile ) ) {
+					throw new RuntimeException( 'File not found.' );
+				}
+
+				$fp = fopen( $mofile, 'rb' );
+				if ( ! $fp ) {
+					throw new \RuntimeException( 'File open failed.' );
+				}
+				$this->mo->import_from_file( $mofile );
+				fclose( $fp );
+			} catch ( Exception $error ) {
+				if ( defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY) {
+					$this->adminNotice(
+						sprintf(
+							/* translators: %1$s is the min PHP-version, %2$s the current PHP-version */
+							esc_html__(
+								'Akismet privacy policies plugin has the error: %1$1s.',
+								'akismet-privacy-policies'
+							),
+							$error
+						)
+					);
+				}
+			}
 		}
 
 		$this->options = get_option( 'akismet_privacy_notice_settings_' . $this->translation );
@@ -83,6 +109,23 @@ class Akismet_Privacy_Policies {
 		add_action( 'admin_menu', [ $this, 'add_settings_page' ] );
 		add_filter( 'plugin_action_links', [ $this, 'plugin_action_links' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
+	}
+
+	/**
+	 * Print admin notices.
+	 *
+	 * @param string $message
+	 */
+	public function adminNotice( $message ) {
+		add_action(
+			'admin_notices',
+			static function () use ( $message ) {
+				printf(
+					'<div class="notice notice-error"><p>%1$s</p></div>',
+					esc_html( $message )
+				);
+			}
+		);
 	}
 
 	/**
