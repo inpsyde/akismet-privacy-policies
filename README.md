@@ -1,6 +1,9 @@
 # Akismet Privacy Policies
 Ergänzt das Kommentarformular um datenschutzrechtliche Hinweise bei Nutzung des Plugins Akismet.
 
+## UNMAINTAINED
+**Note:** This version of the plugin is not maintained anymore.
+
 ## Description
 Der Einsatz des Anti-Spam-Plugins Akismet ist in Deutschland aus datenschutzrechtlichen Aspekten sehr bedenklich, da personenbezogene Daten auf Servern in den USA gespeichert werden.
 
